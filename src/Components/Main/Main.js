@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-
-
+import { searchHistory, userAccount } from '../../config'
 import "./App.css"
-
 import Header from '../Header/Header'
-import Search_panel from '../Search-panel/Search-panel'
+import SearchPanel from '../Search-panel/Search-panel'
 import Weather from '../Weather/Weather';
-
-const axios = require("axios");
-const api_key = "002d4403ca0cb44523537de5c6cdfe1a";
-
+import {wrongValue, urlLocal} from '../../config';
+import { searchById, searchByName } from '../../Services/SearchServices';
 
 
 export default class Main extends Component {
@@ -22,11 +18,11 @@ export default class Main extends Component {
                 country: "",
                 temp: "",
                 feel: "",
-                dt: "",
+                crntDate: "",
                 time: "",
                 weather: []
             },
-            next_weather: [
+            nextWeather: [
 
             ],
             posts: [
@@ -35,14 +31,13 @@ export default class Main extends Component {
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
-        
     }
 
     componentDidMount() {
-        if(!localStorage.getItem("account")) {
-            window.location.assign('http://localhost:3000/signin')
+        if(!localStorage.getItem(userAccount)) {
+            window.location.assign(urlLocal + 'signin')
         } 
-        const posts = JSON.parse(localStorage.getItem("posts"))
+        const posts = JSON.parse(localStorage.getItem(searchHistory))
         if(posts) {
             this.setState({posts: posts})
         }
@@ -56,25 +51,15 @@ export default class Main extends Component {
     //     return mnth + "." + dt + "." + time;
     //  }
 
-    onSubmit(value) {
-
-        //не работает  api.openweathermap.org/data/2.5/forecast/daily?q={city name}&cnt={cnt}&appid={API key}
-        //работает(текущая) api.openweathermap.org/data/2.5/weather?q=${data}&appid=${api_key}
-        // 40 объектов... http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${api_key}&units=metric
-
-        axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${value}&cnt=5&appid=${api_key}&units=metric`)
-            .then((response) => {
+    onSubmit = async(value) => {
+            await searchByName(value).then((response) => {
+                
                 console.log(response);
-
-                var dt = Date(response.data.dt);
-                var a = dt.slice(0,15);
-                var time = dt.slice(16,24);
-
-                var temp_arr = response.data.list
-               
-
-
-                for (let index = 0; index < temp_arr.length; index++) {
+                const dt = Date(response.data.dt);
+                const crntDate = dt.slice(0,15);
+                const time = dt.slice(16,24);
+                const temp_arr = response.data.list
+                 for (let index = 0; index < temp_arr.length; index++) {
                      
                     if(index === 0) {
                         this.setState({
@@ -83,14 +68,14 @@ export default class Main extends Component {
                                 country: response.data.city.country,
                                 temp: Math.ceil(temp_arr[index].main.temp),
                                 feel: Math.floor(temp_arr[index].main.feels_like),
-                                dt: a,
+                                crntDate: crntDate,
                                 time: time,
                                 weather: temp_arr[index].weather,
 
                             },
                         })
-                     } else {
-                        this.setState(({next_weather}) => {
+                    } else {
+                        this.setState(({nextWeather}) => {
                                 
                                 const newPost = {
                                     temp: Math.ceil(temp_arr[index].main.temp),
@@ -101,23 +86,23 @@ export default class Main extends Component {
                                     
                                 }
 
-                                if(next_weather.length === 4){
-                                    next_weather = []
-                                    const newData = [...next_weather, newPost];
+                                if(nextWeather.length === 4){
+                                    nextWeather = []
+                                    const newData = [...nextWeather, newPost];
                                     return {
-                                        next_weather: newData
+                                        nextWeather: newData
                                     }
                                 } else {
-                                    const newData = [...next_weather, newPost];
+                                    const newData = [...nextWeather, newPost];
                                     return {
-                                        next_weather: newData
+                                        nextWeather: newData
                                     }
                                 }
                                 
                         })  
 
                      }  
-                     console.log(this.state.next_weather)           
+                     console.log(this.state.nextWeather)           
                 } 
                 
                 this.setState(({posts}) => {
@@ -127,12 +112,12 @@ export default class Main extends Component {
                         id: response.data.city.id
                     }
 
-                    var id = response.data.city.id
+                    const id = response.data.city.id
                     console.log(id)
                     
-                    var elem = posts.find(item=> item.id === id);
+                    const elem = posts.find(item => item.id === id);
                     if(elem) {
-                        var index = posts.indexOf(elem);
+                        const index = posts.indexOf(elem);
 
                         posts.splice(index,1)
 
@@ -141,7 +126,7 @@ export default class Main extends Component {
                         return {
                             posts: newData
                         }
-
+                        
                     } else {
                         const newData = [...posts, newPost];
                         return {
@@ -150,122 +135,110 @@ export default class Main extends Component {
                     }
                     
                 })
-                localStorage.setItem("posts", JSON.stringify(this.state.posts))
-                
-                
+                localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
             }).catch((error) => {
-                alert("Wrong City");
-            })
+                alert(wrongValue)
+            })  
     }
 
     
-    searchById = async(id) => {
-        await axios.get(`http://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=5&appid=${api_key}&units=metric`)
-        .then((response) => {
-            console.log(response.data)
-            var dt = Date(response.data.dt);
-            var a = dt.slice(0,15);
-            var time = dt.slice(16,24);
-
-            var temp_arr = response.data.list
-            
-            for (let index = 0; index < temp_arr.length; index++) {
-                 if(index === 0) {
-                    this.setState({
-                        data: {
-                            name: response.data.city.name,
-                            country: response.data.city.country,
+     searchById = async(id) => {
+        const response = await searchById(id)
+        console.log(response.data)
+        const dt = Date(response.data.dt);
+        const crntDate = dt.slice(0,15);
+        const time = dt.slice(16,24);
+    
+        const temp_arr = response.data.list
+        
+        for (let index = 0; index < temp_arr.length; index++) {
+            if(index === 0) {
+                this.setState({
+                    data: {
+                        name: response.data.city.name,
+                        country: response.data.city.country,
+                        temp: Math.ceil(temp_arr[index].main.temp),
+                        feel: Math.floor(temp_arr[index].main.feels_like),
+                        crntDate: crntDate,
+                        time: time,
+                        weather: temp_arr[index].weather                         
+                    },
+                })
+            } else {
+                this.setState(({nextWeather}) => {
+                        const newPost = {
                             temp: Math.ceil(temp_arr[index].main.temp),
-                            feel: Math.floor(temp_arr[index].main.feels_like),
-                            dt: a,
-                            time: time,
-                            weather: temp_arr[index].weather                         
-                        },
-                    })
-                 } else {
-                    this.setState(({next_weather}) => {
-                            const newPost = {
-                                temp: Math.ceil(temp_arr[index].main.temp),
-                                feels_like: Math.floor(temp_arr[index].main.feels_like),
-                                wind: temp_arr[index].wind.speed,
-                                time: temp_arr[index].dt_txt.slice(11,20),
-                                id: temp_arr[index].dt
+                            feels_like: Math.floor(temp_arr[index].main.feels_like),
+                            wind: temp_arr[index].wind.speed,
+                            time: temp_arr[index].dt_txt.slice(11,20),
+                            id: temp_arr[index].dt
+                        }
+                        if(nextWeather.length === 4){
+                            nextWeather = []
+                            const newData = [...nextWeather, newPost];
+                            return {
+                                nextWeather: newData
                             }
-                            if(next_weather.length === 4){
-                                next_weather = []
-                                const newData = [...next_weather, newPost];
-                                return {
-                                    next_weather: newData
-                                }
-                            } else {
-                                const newData = [...next_weather, newPost];
-                                return {
-                                    next_weather: newData
-                                }
+                        } else {
+                            const newData = [...nextWeather, newPost];
+                            return {
+                                nextWeather: newData
                             }
-                    })                       
-                 }             
-            } 
+                        }
+                })                       
+             }             
+        } 
+        
+        this.setState(({posts}) => {
+            const newPost = {
+                name: response.data.city.name,
+                country: response.data.city.country,
+                id: response.data.city.id
+            }
             
-            this.setState(({posts}) => {
-                const newPost = {
-                    name: response.data.city.name,
-                    country: response.data.city.country,
-                    id: response.data.city.id
+            const elem = posts.find(item=> item.id === id);
+            if(elem) {
+                let index = posts.indexOf(elem);
+                posts.splice(index,1)
+                console.log(posts);
+                const newData = [...posts, newPost];
+                return {
+                    posts: newData
                 }
 
-                
-                var elem = posts.find(item=> item.id === id);
-                if(elem) {
-                    var index = posts.indexOf(elem);
-
-                    posts.splice(index,1)
-
-                    console.log(posts);
-                    const newData = [...posts, newPost];
-                    return {
-                        posts: newData
-                    }
-
-                } else {
-                    const newData = [...posts, newPost];
-                    return {
-                        posts: newData
-                    }
+            } else {
+                const newData = [...posts, newPost];
+                return {
+                    posts: newData
                 }
-                
-            })
-            localStorage.setItem("posts", JSON.stringify(this.state.posts))
+            }
+            
         })
+        localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
     }
 
     deleteItem = async(id) => {
-       await this.setState(({posts}) => ({
-            posts: posts.filter(item => item.id != id)
+        await this.setState(({posts}) => ({
+            posts: posts.filter(item => item.id !== id)
         }))
         console.log(this.state.posts)
-        localStorage.setItem("posts",JSON.stringify(this.state.posts))
+        localStorage.setItem(searchHistory,JSON.stringify(this.state.posts))
     }
-
-
-
+    
 
     render() {
-
-        const{data, posts, next_weather} = this.state;
-        
-        
+        const{data, posts, nextWeather} = this.state;
         return (
             <> 
                 <div className="wrapper ">
                     <div className="content">
                     <Header/>
                         <div className="search-panel">
-                            <Search_panel onSubmit={this.onSubmit}/>
+                            <SearchPanel onSubmit={this.onSubmit}/>
                             
                         </div>
                         <div className="main">
-                            <Weather data={data} posts={posts} next_weather={next_weather} 
+                            <Weather data={data} posts={posts} nextWeather={nextWeather} 
                             onSearch={this.searchById} onDeleteItem={this.deleteItem}/>
                         </div>
                     </div>

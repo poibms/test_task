@@ -1,20 +1,22 @@
-import React, { Component } from 'react'
-import "./Logout-button.css"
+import React from 'react';
+import { urlLocal, userAccount } from '../../config';
+import './Logout-button.css';
 
-export default class Logout_button extends Component {
-    
-    LogOut() {
-        if(localStorage.getItem("account")){
-            localStorage.removeItem('account');
-            window.location.assign('http://localhost:3000/signin')
-        }
+function LogoutButton() {
+  const LogOut = () => {
+    if (localStorage.getItem(userAccount)) {
+      localStorage.removeItem(userAccount);
+      window.location.assign(`${urlLocal}signin`);
     }
-    
-    render() {
-        return (
-            <div>
-                <button className="login-button" onClick={this.LogOut}>Log Out</button>
-            </div>
-        )
-    }
+  };
+
+return (
+  <div>
+    <button type="button" className="login-button" onClick={LogOut}>
+      Log Out
+    </button>
+  </div>
+  );
 }
+
+export default LogoutButton;
