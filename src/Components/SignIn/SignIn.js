@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { userAccount} from '../../Config/Storage';
+import { CheckLogin } from "../../Services/RoutingServices";
 import SignInForm from "../signInForm/SignInForm";
 
 import "./SignIn.css";
 
 export default class SignIn extends Component {
 	componentDidMount() {
-		if (localStorage.getItem(userAccount)) {
-			this.props.history.push('/');
-		}
+		CheckLogin(this.props)
 	}
 
 	SignIn = (login, email, password) => {

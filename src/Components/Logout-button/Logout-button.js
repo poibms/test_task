@@ -1,17 +1,11 @@
 import React from 'react';
-import { userAccount} from '../../Config/Storage';
 import './Logout-button.css';
 
 function LogoutButton(props) {
   // const {history} = props
-  console.log(props)
+  
   const LogOut = () => {
-    if (localStorage.getItem(userAccount)) {
-      localStorage.removeItem(userAccount);
-      
-      props.history.push('/signin'); // not working 
-      
-    }
+    LogOut(props)// not working
   };
 
 return (

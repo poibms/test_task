@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {wrongValue} from '../../Config/Error';
-import { userAccount, searchHistory } from '../../Config/Storage';
+import { AddSearchHistory, GetSearchHistory} from '../../Config/Storage';
 import "./App.css";
 import Header from '../Header/Header';
 import SearchPanel from '../Search-panel/Search-panel';
 import Weather from '../Weather/Weather';
 import { searchById, searchByName } from '../../Services/SearchServices';
+import { CheckLogin } from '../../Services/RoutingServices';
+
 
 
 export default class Main extends Component {
@@ -27,18 +29,17 @@ export default class Main extends Component {
             ],
             posts: [
           
-            ]
+            ],
+            history: props
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
     }
 
     componentDidMount() {
-        if(!localStorage.getItem(userAccount)) {
-            this.props.history.push('/signin');
-        } 
-        console.log(this.props)
-        const posts = JSON.parse(localStorage.getItem(searchHistory))
+        
+        CheckLogin(this.props);
+        const posts = (GetSearchHistory()) // доделать
         if(posts) {
             this.setState({posts: posts})
         }
@@ -136,7 +137,7 @@ export default class Main extends Component {
                     }
                     
                 })
-                localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
+                AddSearchHistory(JSON.stringify(this.state.posts))
             }).catch((error) => {
                 alert(wrongValue)
             })  
@@ -215,7 +216,7 @@ export default class Main extends Component {
             }
             
         })
-        localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
+        AddSearchHistory(JSON.stringify(this.state.posts))
     }
 
     deleteItem = async(id) => {
@@ -223,17 +224,17 @@ export default class Main extends Component {
             posts: posts.filter(item => item.id !== id)
         }))
         console.log(this.state.posts)
-        localStorage.setItem(searchHistory,JSON.stringify(this.state.posts))
+        AddSearchHistory(JSON.stringify(this.state.posts))
     }
     
 
     render() {
-        const{data, posts, nextWeather} = this.state;
+        const{data, posts, nextWeather, history} = this.state;
         return (
             <> 
                 <div className="wrapper">
                     <div className="content">
-                    <Header/>
+                    <Header props={history}/>
                         <div className="search-panel">
                             <SearchPanel onSubmit={this.onSubmit}/>
                             
