@@ -57,10 +57,12 @@ export default function Weather(props) {
         <div className="item_body-footer">
           <p>
             Feel like
+            {' '}
             {item.feels_like}
           </p>
           <p>
             Wind speed
+            {' '}
             {item.wind}
           </p>
         </div>

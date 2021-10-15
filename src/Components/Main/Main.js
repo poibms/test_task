@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { searchHistory, userAccount } from '../../config'
-import "./App.css"
-import Header from '../Header/Header'
-import SearchPanel from '../Search-panel/Search-panel'
+import React, { Component } from 'react';
+import { searchHistory, userAccount } from '../../config';
+import "./App.css";
+import Header from '../Header/Header';
+import SearchPanel from '../Search-panel/Search-panel';
 import Weather from '../Weather/Weather';
-import {wrongValue, urlLocal} from '../../config';
+import { wrongValue, urlLocal } from '../../config';
 import { searchById, searchByName } from '../../Services/SearchServices';
 
 
@@ -230,7 +230,7 @@ export default class Main extends Component {
         const{data, posts, nextWeather} = this.state;
         return (
             <> 
-                <div className="wrapper ">
+                <div className="wrapper">
                     <div className="content">
                     <Header/>
                         <div className="search-panel">

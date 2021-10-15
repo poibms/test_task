@@ -22,22 +22,25 @@ export default class SearchPanel extends Component {
 
   onChange(event) {
     this.setState({
-      value: event.target.value,
+      // value: event.target.value,
+      value: event
     });
   }
 
   render() {
     const { value } = this.state;
-    return (
-      <form className="search-form" onSubmit={this.onSubmit}>
-        <input
-          type="text"
-          placeholder="type ur city"
-          value={value}
-          onChange={this.onChange}
-        />
-        <input type="submit" />
-      </form>
+
+return (
+  <form className="search-form" onSubmit={this.onSubmit}>
+    <input
+      className="onChange"
+      type="text"
+      placeholder="type ur city"
+      value={value}
+      onChange={this.onChange}
+    />
+    <input type="submit" className="onSearch" />
+  </form>
     );
   }
 }
