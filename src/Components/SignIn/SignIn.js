@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { urlLocal, userAccount } from "../../config";
+import { userAccount} from '../../Config/Storage';
 import SignInForm from "../signInForm/SignInForm";
 
 import "./SignIn.css";
@@ -7,7 +7,7 @@ import "./SignIn.css";
 export default class SignIn extends Component {
 	componentDidMount() {
 		if (localStorage.getItem(userAccount)) {
-			window.location.assign(urlLocal);
+			this.props.history.push('/');
 		}
 	}
 
@@ -20,7 +20,7 @@ export default class SignIn extends Component {
 			console.log(password);
 			const token = login + email + password;
 			localStorage.setItem(userAccount, token);
-			window.location.assign(urlLocal);
+			this.props.history.push('/');
 		} else {
 			alert("the minimum password length should be 15 characters");
 		}

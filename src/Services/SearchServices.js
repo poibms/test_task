@@ -1,4 +1,4 @@
-import { apiKey } from '../config';
+import { apiKey } from '../Config/Keys';
 
 const axios = require('axios');
 

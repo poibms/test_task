@@ -22,8 +22,8 @@ export default class SearchPanel extends Component {
 
   onChange(event) {
     this.setState({
-      // value: event.target.value,
-      value: event
+      value: event.target.value,
+      // value: event
     });
   }
 

@@ -1,12 +1,16 @@
 import React from 'react';
-import { urlLocal, userAccount } from '../../config';
+import { userAccount} from '../../Config/Storage';
 import './Logout-button.css';
 
-function LogoutButton() {
+function LogoutButton(props) {
+  // const {history} = props
+  console.log(props)
   const LogOut = () => {
     if (localStorage.getItem(userAccount)) {
       localStorage.removeItem(userAccount);
-      window.location.assign(`${urlLocal}signin`);
+      
+      props.history.push('/signin'); // not working 
+      
     }
   };
 

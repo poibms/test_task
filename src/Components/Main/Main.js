@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { searchHistory, userAccount } from '../../config';
+import {wrongValue} from '../../Config/Error';
+import { userAccount, searchHistory } from '../../Config/Storage';
 import "./App.css";
 import Header from '../Header/Header';
 import SearchPanel from '../Search-panel/Search-panel';
 import Weather from '../Weather/Weather';
-import { wrongValue, urlLocal } from '../../config';
 import { searchById, searchByName } from '../../Services/SearchServices';
 
 
@@ -35,8 +35,9 @@ export default class Main extends Component {
 
     componentDidMount() {
         if(!localStorage.getItem(userAccount)) {
-            window.location.assign(urlLocal + 'signin')
+            this.props.history.push('/signin');
         } 
+        console.log(this.props)
         const posts = JSON.parse(localStorage.getItem(searchHistory))
         if(posts) {
             this.setState({posts: posts})

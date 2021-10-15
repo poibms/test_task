@@ -4,18 +4,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.22.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.2",
-    "eslint-plugin-jest": "^25.0.5",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^26.6.0",
+    "jest": "^27.2.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hooks": "^1.0.1",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^3.4.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -37,12 +32,20 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.15.0",
+    "@babel/eslint-plugin": "^7.14.5",
+    "@babel/plugin-syntax-jsx": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "babel-cli": "^6.26.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^25.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "2.4.1"
+    "prettier": "^2.3.2"
   }
 }
