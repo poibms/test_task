@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { searchHistory, userAccount } from '../../config'
-import "./App.css"
+import './App.css';
 import Header from '../Header/Header'
 import SearchPanel from '../Search-panel/Search-panel'
 import Weather from '../Weather/Weather';
-import {wrongValue, urlLocal} from '../../config';
+import {wrongValue, urlLocal} from '../../config'ж
 import { searchById, searchByName } from '../../Services/SearchServices';
 
 
 export default class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = 
+        this.state =
         {
             data:{
                 name: "",
@@ -26,7 +26,7 @@ export default class Main extends Component {
 
             ],
             posts: [
-          
+
             ]
         }
         this.onSubmit = this.onSubmit.bind(this);
@@ -36,7 +36,7 @@ export default class Main extends Component {
     componentDidMount() {
         if(!localStorage.getItem(userAccount)) {
             window.location.assign(urlLocal + 'signin')
-        } 
+        }
         const posts = JSON.parse(localStorage.getItem(searchHistory))
         if(posts) {
             this.setState({posts: posts})
@@ -47,20 +47,20 @@ export default class Main extends Component {
     //     var mnth = value.getMonth() + 1;
     //     var dt = value.getDate();
     //     var time = value.getHourse();
-        
+
     //     return mnth + "." + dt + "." + time;
     //  }
 
     onSubmit = async(value) => {
             await searchByName(value).then((response) => {
-                
+
                 console.log(response);
                 const dt = Date(response.data.dt);
                 const crntDate = dt.slice(0,15);
                 const time = dt.slice(16,24);
                 const temp_arr = response.data.list
                  for (let index = 0; index < temp_arr.length; index++) {
-                     
+
                     if(index === 0) {
                         this.setState({
                             data: {
@@ -76,14 +76,14 @@ export default class Main extends Component {
                         })
                     } else {
                         this.setState(({nextWeather}) => {
-                                
+
                                 const newPost = {
                                     temp: Math.ceil(temp_arr[index].main.temp),
                                     feels_like: Math.floor(temp_arr[index].main.feels_like),
                                     wind: temp_arr[index].wind.speed,
                                     time: temp_arr[index].dt_txt.slice(11,20),
                                     id: temp_arr[index].dt,
-                                    
+
                                 }
 
                                 if(nextWeather.length === 4){
@@ -98,13 +98,13 @@ export default class Main extends Component {
                                         nextWeather: newData
                                     }
                                 }
-                                
-                        })  
 
-                     }  
-                     console.log(this.state.nextWeather)           
-                } 
-                
+                        })
+
+                     }
+                     console.log(this.state.nextWeather)
+                }
+
                 this.setState(({posts}) => {
                     const newPost = {
                         name: response.data.city.name,
@@ -114,7 +114,7 @@ export default class Main extends Component {
 
                     const id = response.data.city.id
                     console.log(id)
-                    
+
                     const elem = posts.find(item => item.id === id);
                     if(elem) {
                         const index = posts.indexOf(elem);
@@ -126,31 +126,31 @@ export default class Main extends Component {
                         return {
                             posts: newData
                         }
-                        
+
                     } else {
                         const newData = [...posts, newPost];
                         return {
                             posts: newData
                         }
                     }
-                    
+
                 })
                 localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
             }).catch((error) => {
                 alert(wrongValue)
-            })  
+            })
     }
 
-    
+
      searchById = async(id) => {
         const response = await searchById(id)
         console.log(response.data)
         const dt = Date(response.data.dt);
         const crntDate = dt.slice(0,15);
         const time = dt.slice(16,24);
-    
+
         const temp_arr = response.data.list
-        
+
         for (let index = 0; index < temp_arr.length; index++) {
             if(index === 0) {
                 this.setState({
@@ -161,7 +161,7 @@ export default class Main extends Component {
                         feel: Math.floor(temp_arr[index].main.feels_like),
                         crntDate: crntDate,
                         time: time,
-                        weather: temp_arr[index].weather                         
+                        weather: temp_arr[index].weather
                     },
                 })
             } else {
@@ -185,17 +185,17 @@ export default class Main extends Component {
                                 nextWeather: newData
                             }
                         }
-                })                       
-             }             
-        } 
-        
+                })
+             }
+        }
+
         this.setState(({posts}) => {
             const newPost = {
                 name: response.data.city.name,
                 country: response.data.city.country,
                 id: response.data.city.id
             }
-            
+
             const elem = posts.find(item=> item.id === id);
             if(elem) {
                 let index = posts.indexOf(elem);
@@ -212,7 +212,7 @@ export default class Main extends Component {
                     posts: newData
                 }
             }
-            
+
         })
         localStorage.setItem(searchHistory, JSON.stringify(this.state.posts))
     }
@@ -224,26 +224,26 @@ export default class Main extends Component {
         console.log(this.state.posts)
         localStorage.setItem(searchHistory,JSON.stringify(this.state.posts))
     }
-    
+
 
     render() {
         const{data, posts, nextWeather} = this.state;
         return (
-            <> 
+            <>
                 <div className="wrapper ">
                     <div className="content">
                     <Header/>
                         <div className="search-panel">
                             <SearchPanel onSubmit={this.onSubmit}/>
-                            
+
                         </div>
                         <div className="main">
-                            <Weather data={data} posts={posts} nextWeather={nextWeather} 
+                            <Weather data={data} posts={posts} nextWeather={nextWeather}
                             onSearch={this.searchById} onDeleteItem={this.deleteItem}/>
                         </div>
                     </div>
                 </div>
-            
+
             </>
         )
     }

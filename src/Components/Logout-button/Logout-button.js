@@ -3,11 +3,11 @@ import { urlLocal, userAccount } from '../../config';
 import './Logout-button.css';
 
 function LogoutButton() {
-  const LogOut = () => {
-    if (localStorage.getItem(userAccount)) {
-      localStorage.removeItem(userAccount);
-      window.location.assign(`${urlLocal}signin`);
-    }
+	const LogOut = () => {
+		if (localStorage.getItem(userAccount)) {
+			localStorage.removeItem(userAccount);
+			window.location.assign(`${urlLocal}signin`);
+		}
   };
 
 return (
