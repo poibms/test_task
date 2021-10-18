@@ -1,22 +1,24 @@
 export const userAccount = 'UserAccount';
 export const searchHistory = 'SearchHistory';
 
-export const GetUserAcc = () => {
-    if(localStorage.getItem(userAccount)) {
-        return true
-    } else {
-        return false
-    }
-}
+export const getUserAcc = () => {
+	if (localStorage.getItem(userAccount)) {
+		return true;
+	}
 
-export const RemoveAccout = () => {
-    localStorage.removeItem(userAccount);
-}
+	return false;
+};
 
-export const AddSearchHistory = (value) => {
-    localStorage.setItem(searchHistory, value )
-}
+export const removeAccout = () => {
+	localStorage.removeItem(userAccount);
+};
 
-export const GetSearchHistory = () => {
-    JSON.parse(localStorage.getItem(searchHistory))
-}
+export const addSearchHistory = (value) => {
+	localStorage.setItem(searchHistory, value);
+};
+
+export const getSearchHistory = () => {
+	const data = JSON.parse(localStorage.getItem(searchHistory));
+
+	return data;
+};

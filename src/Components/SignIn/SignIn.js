@@ -14,9 +14,7 @@ export default class SignIn extends Component {
 		const numbers = /[A-Z\d]/g;
 
 		if (password.length > 5 && numbers.test(password)) {
-			console.log(login);
-			console.log(email);
-			console.log(password);
+			
 			const token = login + email + password;
 			localStorage.setItem(userAccount, token);
 			this.props.history.push('/');

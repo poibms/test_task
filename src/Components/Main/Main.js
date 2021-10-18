@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {wrongValue} from '../../Config/Error';
-import { AddSearchHistory, GetSearchHistory} from '../../Config/Storage';
+import { addSearchHistory, getSearchHistory} from '../../Config/Storage';
 import "./App.css";
 import Header from '../Header/Header';
 import SearchPanel from '../Search-panel/Search-panel';
@@ -39,7 +39,7 @@ export default class Main extends Component {
     componentDidMount() {
         
         CheckLogin(this.props);
-        const posts = (GetSearchHistory()) // доделать
+        const posts = getSearchHistory();
         if(posts) {
             this.setState({posts: posts})
         }
@@ -54,7 +54,9 @@ export default class Main extends Component {
     //  }
 
     onSubmit = async(value) => {
-            await searchByName(value).then((response) => {
+            const response = await searchByName(value)
+                // if(!response === undefined) {
+
                 
                 console.log(response);
                 const dt = Date(response.data.dt);
@@ -114,12 +116,12 @@ export default class Main extends Component {
                         id: response.data.city.id
                     }
 
-                    const id = response.data.city.id
+                    var id = response.data.city.id
                     console.log(id)
                     
-                    const elem = posts.find(item => item.id === id);
+                    var elem = posts.find(item=> item.id === id);
                     if(elem) {
-                        const index = posts.indexOf(elem);
+                        var index = posts.indexOf(elem);
 
                         posts.splice(index,1)
 
@@ -128,7 +130,7 @@ export default class Main extends Component {
                         return {
                             posts: newData
                         }
-                        
+
                     } else {
                         const newData = [...posts, newPost];
                         return {
@@ -137,10 +139,11 @@ export default class Main extends Component {
                     }
                     
                 })
-                AddSearchHistory(JSON.stringify(this.state.posts))
-            }).catch((error) => {
-                alert(wrongValue)
-            })  
+                addSearchHistory( JSON.stringify(this.state.posts))
+            // } else {
+            //     alert("bad request, check ur city name");
+            // }
+           
     }
 
     
@@ -216,15 +219,14 @@ export default class Main extends Component {
             }
             
         })
-        AddSearchHistory(JSON.stringify(this.state.posts))
+        addSearchHistory(JSON.stringify(this.state.posts))
     }
 
     deleteItem = async(id) => {
         await this.setState(({posts}) => ({
             posts: posts.filter(item => item.id !== id)
         }))
-        console.log(this.state.posts)
-        AddSearchHistory(JSON.stringify(this.state.posts))
+        addSearchHistory(JSON.stringify(this.state.posts))
     }
     
 

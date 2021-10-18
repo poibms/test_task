@@ -10,6 +10,7 @@ const App = () => (
 			<Route exact path="/signin" component={SignIn} />
 			
   		</Switch>
+		  
   </BrowserRouter>
 );
 export default App;

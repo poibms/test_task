@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "airbnb": "^0.0.2",
     "axios": "^0.22.0",
     "jest": "^27.2.5",
     "react": "^17.0.2",
@@ -32,10 +33,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.15.0",
+    "@babel/eslint-parser": "^7.15.8",
     "@babel/eslint-plugin": "^7.14.5",
     "@babel/plugin-syntax-jsx": "^7.14.5",
-    "@babel/preset-react": "^7.14.5",
     "babel-cli": "^6.26.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
