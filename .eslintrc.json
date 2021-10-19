@@ -17,8 +17,7 @@
     "ecmaFeatures": {
       "globalReturn": false,
       "jsx": true
-    },
-    
+    },    
     
     "ecmaVersion": 2020,
     "requireConfigFile": false
@@ -32,6 +31,7 @@
   "rules": {
     "max-len": ["error", 150],
     "indent": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "linebreak-style": "off",
     "newline-before-return": "error",
     "import/newline-after-import": ["error", { "count": 1 }],
@@ -76,8 +76,7 @@
     "object-curly-newline": "off",
     "import/prefer-default-export": "off",
     "import/no-named-as-default": "off",
-    "react/jsx-indent": ["error", 2],
-    "react/jsx-indent-props": ["error", 2],
+
     "react/jsx-props-no-spreading": "off",
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",

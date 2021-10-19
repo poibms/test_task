@@ -1,7 +1,7 @@
 import { getUserAcc, removeAccout } from '../Config/Storage';
 import { mainPage, signIn } from '../Config/Routes';
 
-export const CheckLogin = (props) => {
+export const checkLogin = (props) => {
 	if (!getUserAcc()) {
 		props.history.push(signIn);
 	} else {
@@ -9,7 +9,7 @@ export const CheckLogin = (props) => {
 	}
 };
 
-export const LoginOut = (props) => {
+export const loginOut = (props) => {
 	removeAccout();
 	props.history.push(signIn);
 };
