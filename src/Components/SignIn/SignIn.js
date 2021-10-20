@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { userAccount } from '../../Config/Storage';
+import { createAccout } from '../../Config/Storage';
 import { checkLogin } from '../../Services/RoutingServices';
 import SignInForm from '../signInForm/SignInForm';
 
@@ -15,7 +15,7 @@ export default class SignIn extends Component {
 
 		if (password.length > 5 && numbers.test(password)) {
 			const token = login + email + password;
-			localStorage.setItem(userAccount, token);
+			createAccout(token);
 			this.props.history.push('/');
 		} else {
 			alert('the minimum password length should be 15 characters');

@@ -9,6 +9,10 @@ export const getUserAcc = () => {
 	return false;
 };
 
+export const createAccout = (value) => {
+	localStorage.setItem(userAccount, value);
+};
+
 export const removeAccout = () => {
 	localStorage.removeItem(userAccount);
 };
