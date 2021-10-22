@@ -1,33 +1,24 @@
-import { apiKey } from '../Config/Api';
-
-const axios = require('axios');
+import { apiKey, baseUrl } from '../Config/Api';
+import BaseSearchClass from './BaseSearchClass';
 
 const configureLinkByName = (value) => {
-	const linkByName = `http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${apiKey}&units=metric`;
+	const linkByName = `data/2.5/forecast?q=${value}&appid=${apiKey}&units=metric`;
 
 	return linkByName;
 };
 
 const configureLinkById = (id) => {
-	const linkbyId = `http://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=5&appid=${apiKey}&units=metric`;
+	const linkbyId = `data/2.5/forecast?id=${id}&cnt=5&appid=${apiKey}&units=metric`;
 
 	return linkbyId;
 };
 
-const search = (link) => {
-	try {
-		const request = axios.get(link);
+export const searchByName = async (value) =>
+	BaseSearchClass.http.get(configureLinkByName(value));
 
-		return request;
-	} catch (err) {
-		console.log('error', err);
-	}
-};
-
-export const searchByName = (value) => search(configureLinkByName(value));
-
-export const searchById = (id) => search(configureLinkById(id));
+export const searchById = async (id) =>
+	BaseSearchClass.http.get(configureLinkById(id));
 
 export const getIcon = (id) => {
-	return `http://openweathermap.org/img/wn/${id}@2x.png`;
+	return `${baseUrl}img/wn/${id}@2x.png`;
 };
