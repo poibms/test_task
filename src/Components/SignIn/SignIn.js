@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { checkLogin } from '../../Services/RoutingServices';
-import SignInForm from '../signInForm/SignInForm';
+import SignInForm from '../SignInForm/SignInForm';
 import LocalStorageServices from '../../Services/LocalStorageServices';
+import { wrongPassword } from '../../Config/Error';
+import { mainPage } from '../../Config/Routes';
 import './SignIn.css';
 
 export default class SignIn extends Component {
@@ -9,17 +11,15 @@ export default class SignIn extends Component {
 		checkLogin(this.props);
 	}
 
-	SignIn = (login, email, password) => {
+	SignInUserAccount = (login, email, password) => {
 		const numbers = /[A-Z\d]/g;
 
 		if (password.length > 5 && numbers.test(password)) {
 			const token = login + email + password;
 			LocalStorageServices.createAccount(token);
-			this.props.history.push('/');
+			this.props.history.push(mainPage);
 		} else {
-			alert(
-				'the minimum password length should be 5 characters and at least 1 digit',
-			);
+			alert(wrongPassword);
 		}
 	};
 
@@ -27,7 +27,7 @@ export default class SignIn extends Component {
 		return (
 			<>
 				<div className="wrap">
-					<SignInForm onSubmit={this.SignIn} />
+					<SignInForm onSubmit={this.SignInUserAccount} />
 				</div>
 			</>
 		);

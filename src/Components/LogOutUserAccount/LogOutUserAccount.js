@@ -1,7 +1,7 @@
 import React from 'react';
-import './LogoutUserAccount.css';
+import './LogOutUserAccount.css';
 
-function LogoutUserAccount(props) {
+function LogOutUserAccount(props) {
 	const { onLogout } = props;
 
 	return (
@@ -13,4 +13,4 @@ function LogoutUserAccount(props) {
 	);
 }
 
-export default LogoutUserAccount;
+export default LogOutUserAccount;

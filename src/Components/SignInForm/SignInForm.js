@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './SignIn-form.css';
+import './SignInForm.css';
 
 export default class SignInForm extends Component {
 	constructor(props) {
@@ -10,31 +10,31 @@ export default class SignInForm extends Component {
 			email: '',
 			password: '',
 		};
-		this.onLogin = this.onLogin.bind(this);
-		this.onEmail = this.onEmail.bind(this);
-		this.onPassword = this.onPassword.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.onLoginChange = this.onLoginChange.bind(this);
+		this.onEmailChange = this.onEmailChange.bind(this);
+		this.onPasswordChange = this.onPasswordChange.bind(this);
+		this.onSubmitSignInForm = this.onSubmitSignInForm.bind(this);
 	}
 
-	onLogin(event) {
+	onLoginChange(event) {
 		this.setState({
 			login: event.target.value,
 		});
 	}
 
-	onEmail(event) {
+	onEmailChange(event) {
 		this.setState({
 			email: event.target.value,
 		});
 	}
 
-	onPassword(event) {
+	onPasswordChange(event) {
 		this.setState({
 			password: event.target.value,
 		});
 	}
 
-	onSubmit(event) {
+	onSubmitSignInForm(event) {
 		event.preventDefault();
 		// const {onSubmit} = this.props
 		const { login, email, password } = this.state;
@@ -44,7 +44,7 @@ export default class SignInForm extends Component {
 	render() {
 		return (
 			<div>
-				<form className="form" onSubmit={this.onSubmit}>
+				<form className="form" onSubmit={this.onSubmitSignInForm}>
 					<div className="form_inner">
 						<h3>Sign up</h3>
 
@@ -52,21 +52,21 @@ export default class SignInForm extends Component {
 							type="text"
 							name="login"
 							placeholder="Username"
-							onChange={this.onLogin}
+							onChange={this.onLoginChange}
 						/>
 
 						<input
 							type="email"
 							name="email"
 							placeholder="Email"
-							onChange={this.onEmail}
+							onChange={this.onEmailChange}
 						/>
 
 						<input
 							type="password"
 							name="password"
 							placeholder="Password"
-							onChange={this.onPassword}
+							onChange={this.onPasswordChange}
 						/>
 
 						<input type="submit" value="Sign Up" />

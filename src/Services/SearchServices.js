@@ -3,7 +3,7 @@ import { apiKey } from '../Config/Api';
 const axios = require('axios');
 
 const configureLinkByName = (value) => {
-	const linkByName = `http://api.openweathermap.org/data/2.5/forecast?q=${value}&cnt=5&appid=${apiKey}&units=metric`;
+	const linkByName = `http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${apiKey}&units=metric`;
 
 	return linkByName;
 };

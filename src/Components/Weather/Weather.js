@@ -4,7 +4,7 @@ import './Weather.css';
 import { getIcon } from '../../Services/SearchServices';
 
 export default function Weather(props) {
-	const { data, posts, nextWeather, onSearch, onDeleteItem } = props;
+	const { data, posts, nextWeather, onSubmitById, onDeleteItem } = props;
 	const reverse = posts.reverse();
 
 	const elements = reverse.map((item) => (
@@ -13,7 +13,7 @@ export default function Weather(props) {
 				role="button"
 				className="search-item_text"
 				onClick={() => {
-					onSearch(item.id);
+					onSubmitById(item.id);
 				}}>
 				{item.name},{item.country}
 			</div>

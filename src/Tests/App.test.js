@@ -3,7 +3,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import Headers from '../Components/Header/Header';
 import Main from '../Components/Main/Main';
-import SearchPanel from '../Components/Search-panel/Search-panel';
+import SearchPanel from '../Components/SearchPanel/SearchPanel';
 import Weather from '../Components/Weather/Weather';
 
 configure({ adapter: new Adapter() });

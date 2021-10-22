@@ -8,4 +8,3 @@ export const checkLogin = (props) => {
 		props.history.push(mainPage);
 	}
 };
-

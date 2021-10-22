@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from '../Header/Header';
-import SearchPanel from '../Search-panel/Search-panel';
+import SearchPanel from '../SearchPanel/SearchPanel';
 import Weather from '../Weather/Weather';
 import { searchById, searchByName } from '../../Services/SearchServices';
 import { checkLogin } from '../../Services/RoutingServices';
@@ -23,10 +23,9 @@ export default class Main extends Component {
 			},
 			nextWeather: [],
 			posts: [],
-
 		};
-		this.onSubmit = this.onSubmit.bind(this);
-		this.deleteItem = this.deleteItem.bind(this);
+		this.submitRequestByName = this.submitRequestByName.bind(this);
+		this.deleteSearchHistoryItem = this.deleteSearchHistoryItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -37,7 +36,7 @@ export default class Main extends Component {
 		}
 	}
 
-	onSubmit = async (value) => {
+	submitRequestByName = async (value) => {
 		await searchByName(value)
 			.then((response) => {
 				const dt = Date(response.data.dt);
@@ -120,7 +119,7 @@ export default class Main extends Component {
 			});
 	};
 
-	searchById = async (id) => {
+	submitRequestById = async (id) => {
 		const response = await searchById(id);
 		const dt = Date(response.data.dt);
 		const crntDate = dt.slice(0, 15);
@@ -195,7 +194,7 @@ export default class Main extends Component {
 		LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
 	};
 
-	deleteItem = async (id) => {
+	deleteSearchHistoryItem = async (id) => {
 		await this.setState(({ posts }) => ({
 			posts: posts.filter((item) => item.id !== id),
 		}));
@@ -211,15 +210,15 @@ export default class Main extends Component {
 					<div className="content">
 						<Header {...this.props} />
 						<div className="search-panel">
-							<SearchPanel onSubmit={this.onSubmit} />
+							<SearchPanel onSubmitByName={this.submitRequestByName} />
 						</div>
 						<div className="main">
 							<Weather
 								data={data}
 								posts={posts}
 								nextWeather={nextWeather}
-								onSearch={this.searchById}
-								onDeleteItem={this.deleteItem}
+								onSubmitById={this.submitRequestById}
+								onDeleteItem={this.deleteSearchHistoryItem}
 							/>
 						</div>
 					</div>

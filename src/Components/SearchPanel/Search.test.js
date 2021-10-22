@@ -1,7 +1,7 @@
 import { configure, shallow, render, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import SearchPanel from './Search-panel';
+import SearchPanel from './SearchPanel';
 
 configure({ adapter: new Adapter() });
 

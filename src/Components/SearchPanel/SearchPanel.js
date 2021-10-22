@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Search-panel.css';
+import './SearchPanel.css';
 
 export default class SearchPanel extends Component {
 	constructor(props) {
@@ -7,20 +7,20 @@ export default class SearchPanel extends Component {
 		this.state = {
 			value: '',
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.onChangeSearchInput = this.onChangeSearchInput.bind(this);
+		this.onSubmitSearchForm = this.onSubmitSearchForm.bind(this);
 	}
 
-	onSubmit(e) {
+	onSubmitSearchForm(e) {
 		e.preventDefault();
 		const { value } = this.state;
-		this.props.onSubmit(value);
+		this.props.onSubmitByName(value);
 		this.setState({
 			value: '',
 		});
 	}
 
-	onChange(event) {
+	onChangeSearchInput(event) {
 		this.setState({
 			value: event.target.value,
 			// value: event,
@@ -31,13 +31,13 @@ export default class SearchPanel extends Component {
 		const { value } = this.state;
 
 		return (
-			<form className="search-form" onSubmit={this.onSubmit}>
+			<form className="search-form" onSubmit={this.onSubmitSearchForm}>
 				<input
 					className="onChange"
 					type="text"
 					placeholder="type ur city"
 					value={value}
-					onChange={this.onChange}
+					onChange={this.onChangeSearchInput}
 				/>
 				<input type="submit" className="onSearch" />
 				<button type="button" className="click" />
