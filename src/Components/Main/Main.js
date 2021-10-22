@@ -23,7 +23,7 @@ export default class Main extends Component {
 			},
 			nextWeather: [],
 			posts: [],
-			history: props,
+
 		};
 		this.onSubmit = this.onSubmit.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
@@ -203,13 +203,13 @@ export default class Main extends Component {
 	};
 
 	render() {
-		const { data, posts, nextWeather, history } = this.state;
+		const { data, posts, nextWeather } = this.state;
 
 		return (
 			<>
 				<div className="wrapper">
 					<div className="content">
-						<Header props={history} />
+						<Header {...this.props} />
 						<div className="search-panel">
 							<SearchPanel onSubmit={this.onSubmit} />
 						</div>

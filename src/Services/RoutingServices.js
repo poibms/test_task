@@ -9,7 +9,3 @@ export const checkLogin = (props) => {
 	}
 };
 
-export const loginOut = (props) => {
-	LocalStorageServices.removeAccount();
-	props.history.push(signIn);
-};

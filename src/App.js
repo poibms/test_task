@@ -8,7 +8,7 @@ const App = () => (
 		<Switch>
 			<Route exact path="/" component={Main} />
 			<Route exact path="/signin" component={SignIn} />
-  </Switch>
-  </BrowserRouter>
+		</Switch>
+	</BrowserRouter>
 );
 export default App;
