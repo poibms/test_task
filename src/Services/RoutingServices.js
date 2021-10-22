@@ -1,8 +1,8 @@
-import { getUserAcc, removeAccout } from '../Config/Storage';
+import LocalStorageServices from './LocalStorageServices';
 import { mainPage, signIn } from '../Config/Routes';
 
 export const checkLogin = (props) => {
-	if (!getUserAcc()) {
+	if (!LocalStorageServices.getUserAcc()) {
 		props.history.push(signIn);
 	} else {
 		props.history.push(mainPage);
@@ -10,6 +10,6 @@ export const checkLogin = (props) => {
 };
 
 export const loginOut = (props) => {
-	removeAccout();
+	LocalStorageServices.removeAccount();
 	props.history.push(signIn);
 };

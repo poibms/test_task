@@ -1,6 +1,7 @@
 import React from 'react';
-
 import './Weather.css';
+// eslint-disable-next-line import/named
+import { getIcon } from '../../Services/SearchServices';
 
 export default function Weather(props) {
 	const { data, posts, nextWeather, onSearch, onDeleteItem } = props;
@@ -17,6 +18,7 @@ export default function Weather(props) {
 				{item.name},{item.country}
 			</div>
 			<span
+				className="delBtn"
 				role="button"
 				onClick={() => {
 					onDeleteItem(item.id);
@@ -33,11 +35,7 @@ export default function Weather(props) {
 	));
 
 	const icon = data.weather.map((item) => (
-		<img
-			alt="icon"
-			key={item.id}
-			src={`http://openweathermap.org/img/wn/${item.icon}@2x.png`}
-		/>
+		<img alt="icon" key={item.id} src={getIcon(item.icon)} />
 	));
 
 	const nearestWeather = nextWeather.map((item) => (

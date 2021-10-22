@@ -20,10 +20,14 @@ const search = (link) => {
 
 		return request;
 	} catch (err) {
-		console.log(err);
+		console.log('error', err);
 	}
 };
 
 export const searchByName = (value) => search(configureLinkByName(value));
 
 export const searchById = (id) => search(configureLinkById(id));
+
+export const getIcon = (id) => {
+	return `http://openweathermap.org/img/wn/${id}@2x.png`;
+};

@@ -23,7 +23,7 @@ export default class SearchPanel extends Component {
 	onChange(event) {
 		this.setState({
 			value: event.target.value,
-			// value: event
+			// value: event,
 		});
 	}
 
@@ -40,6 +40,7 @@ export default class SearchPanel extends Component {
 					onChange={this.onChange}
 				/>
 				<input type="submit" className="onSearch" />
+				<button type="button" className="click" />
 			</form>
 		);
 	}
