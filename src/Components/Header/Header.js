@@ -6,7 +6,7 @@ import LocalStorageServices from '../../Services/LocalStorageServices';
 import { signIn } from '../../Config/Routes';
 
 const Headers = ({ history }) => {
-	const LogOutUser = () => {
+	const logOutUser = () => {
 		LocalStorageServices.removeAccount();
 		history.push(signIn);
 	};
@@ -14,7 +14,7 @@ const Headers = ({ history }) => {
 	return (
 		<div className="header">
 			<h1>Weather App</h1>
-			<LogOutUserAccount onLogout={LogOutUser} />
+			<LogOutUserAccount onLogout={logOutUser} />
 		</div>
 	);
 };
