@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import './SignInForm.css';
 
 export default class SignInForm extends Component {
@@ -10,25 +9,25 @@ export default class SignInForm extends Component {
 			email: '',
 			password: '',
 		};
-		this.onLoginChange = this.onLoginChange.bind(this);
-		this.onEmailChange = this.onEmailChange.bind(this);
-		this.onPasswordChange = this.onPasswordChange.bind(this);
+		this.onLoginInputChange = this.onLoginInputChange.bind(this);
+		this.onEmailInputChange = this.onEmailInputChange.bind(this);
+		this.onPasswordInputChange = this.onPasswordInputChange.bind(this);
 		this.onSubmitSignInForm = this.onSubmitSignInForm.bind(this);
 	}
 
-	onLoginChange(event) {
+	onLoginInputChange(event) {
 		this.setState({
 			login: event.target.value,
 		});
 	}
 
-	onEmailChange(event) {
+	onEmailInputChange(event) {
 		this.setState({
 			email: event.target.value,
 		});
 	}
 
-	onPasswordChange(event) {
+	onPasswordInputChange(event) {
 		this.setState({
 			password: event.target.value,
 		});
@@ -52,21 +51,21 @@ export default class SignInForm extends Component {
 							type="text"
 							name="login"
 							placeholder="Username"
-							onChange={this.onLoginChange}
+							onChange={this.onLoginInputChange}
 						/>
 
 						<input
 							type="email"
 							name="email"
 							placeholder="Email"
-							onChange={this.onEmailChange}
+							onChange={this.onEmailInputChange}
 						/>
 
 						<input
 							type="password"
 							name="password"
 							placeholder="Password"
-							onChange={this.onPasswordChange}
+							onChange={this.onPasswordInputChange}
 						/>
 
 						<input type="submit" value="Sign Up" />

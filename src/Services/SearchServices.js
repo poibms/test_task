@@ -1,16 +1,16 @@
-import { apiKey, baseUrl } from '../Config/Api';
+import { apiKey, imgUrl, regularRote, units } from '../Config/Api';
 import BaseSearchClass from './BaseSearchClass';
 
 const configureLinkByName = (value) => {
-	const linkByName = `data/2.5/forecast?q=${value}&appid=${apiKey}&units=metric`;
+	const linkByName = `${regularRote}q=${value}&cnt=5&appid=${apiKey}${units}`;
 
 	return linkByName;
 };
 
 const configureLinkById = (id) => {
-	const linkbyId = `data/2.5/forecast?id=${id}&cnt=5&appid=${apiKey}&units=metric`;
+	const linkById = `${regularRote}id=${id}&cnt=5&appid=${apiKey}${units}`;
 
-	return linkbyId;
+	return linkById;
 };
 
 export const searchByName = async (value) =>
@@ -20,5 +20,5 @@ export const searchById = async (id) =>
 	BaseSearchClass.http.get(configureLinkById(id));
 
 export const getIcon = (id) => {
-	return `${baseUrl}img/wn/${id}@2x.png`;
+	return `${imgUrl}img/wn/${id}@2x.png`;
 };

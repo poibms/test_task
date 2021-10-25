@@ -40,7 +40,7 @@ export default class SearchPanel extends Component {
 					onChange={this.onChangeSearchInput}
 				/>
 				<input type="submit" className="onSearch" />
-				<button type="button" className="click" />
+				{/* <button type="button" className="click" /> */}
 			</form>
 		);
 	}

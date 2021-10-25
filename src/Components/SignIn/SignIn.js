@@ -11,7 +11,7 @@ export default class SignIn extends Component {
 		checkLogin(this.props);
 	}
 
-	SignInUserAccount = (login, email, password) => {
+	signInUserAccount = (login, email, password) => {
 		const numbers = /[A-Z\d]/g;
 
 		if (password.length > 5 && numbers.test(password)) {
@@ -27,7 +27,7 @@ export default class SignIn extends Component {
 		return (
 			<>
 				<div className="wrap">
-					<SignInForm onSubmit={this.SignInUserAccount} />
+					<SignInForm onSubmit={this.signInUserAccount} />
 				</div>
 			</>
 		);
