@@ -5,19 +5,26 @@ import LocalStorageServices from '../../Services/LocalStorageServices';
 import { wrongPassword } from '../../Config/Error';
 import { mainPage } from '../../Config/Routes';
 import './SignIn.css';
-import UserStatus from '../../Hoc/UserStatus';
+// import requireAuthentication from '../../Hoc/UserStatus';
 
 class SignIn extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isLogin: false,
-		};
-	}
-
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		isLoggin: checkLogin(),
+	// 	};
+	// }
+	//
 	componentDidMount() {
 		checkLogin(this.props);
 	}
+	//
+	// componentDidUpdate(prevProps, prevState) {
+	// 	if (prevState !== this.state) {
+	// 		console.log('updated');
+	// 		console.log(this.state.isLoggin);
+	// 	}
+	// }
 
 	signInUserAccount = (login, email, password) => {
 		const numbers = /[A-Z\d]/g;
@@ -25,9 +32,9 @@ class SignIn extends Component {
 		if (password.length > 5 && numbers.test(password)) {
 			const token = login + email + password;
 			LocalStorageServices.createAccount(token);
-			this.setState({
-				isLogin: true,
-			});
+			// this.setState({
+			// 	isLoggin: checkLogin(),
+			// });
 			this.props.history.push(mainPage);
 		} else {
 			alert(wrongPassword);
@@ -45,4 +52,4 @@ class SignIn extends Component {
 	}
 }
 
-export default UserStatus(SignIn);
+export default SignIn;
