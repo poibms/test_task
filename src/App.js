@@ -1,25 +1,31 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Main from './Components/Main/Main';
+import SignIn from './Components/SignIn/SignIn';
+import { mainPage, signIn } from './Config/Routes';
+// import requireAuthentication from './Hoc/UserStatus';
+// import { checkLogin } from './Services/RoutingServices';
 
+const App = () => {
+	return (
+		<BrowserRouter>
+			<Switch>
+				<Route
+					exact
+					path={mainPage}
+					// component={requireAuthentication(Main)}
+					component={Main}
+				/>
 
-import  {BrowserRouter as Router,
-    Switch,
-    Route} from 'react-router-dom'
-import Main from './Components/Main/Main'
-import SignIn from './Components/SignIn/SignIn'
+				<Route
+					exact
+					path={signIn}
+					// component={requireAuthentication(SignIn)}
+					component={SignIn}
+				/>
+			</Switch>
+		</BrowserRouter>
+	);
+};
 
-export default class App extends Component {
-    
-    render() {
-   
-        
-        return (
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={Main}/>
-                    <Route exact path="/signin" component={SignIn}/>
-                </Switch>
-            </Router>
-            
-        )
-    }
-}
+export default App;

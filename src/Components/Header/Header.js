@@ -1,19 +1,21 @@
-import React, { Component } from 'react'
-import "./Header.css";
+import React from 'react';
+import './Header.css';
 
+import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
+import LocalStorageServices from '../../Services/LocalStorageServices';
+import { signIn } from '../../Config/Routes';
 
-import Logout_button from '../Logout-button/Logout-button';
+const Headers = ({ history }) => {
+	const logOutUser = () => {
+		LocalStorageServices.removeAccount();
+		history.push(signIn);
+	};
 
-
-export default class Header extends Component {
-
-
-    render() {
-        return (
-            <div className="header">
-                <h1>Weather App</h1>
-                <Logout_button/>
-            </div>
-        )
-    }
-}
+	return (
+		<div className="header">
+			<h1>Weather App</h1>
+			<LogOutUserAccount onLogout={logOutUser} />
+		</div>
+	);
+};
+export default Headers;

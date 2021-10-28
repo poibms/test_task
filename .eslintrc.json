@@ -1,0 +1,91 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "prettier",
+    "plugin:jest/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {    
+    "ecmaFeatures": {
+      "globalReturn": false,
+      "jsx": true
+    },    
+    
+    "ecmaVersion": 2020,
+    "requireConfigFile": false
+  },
+  "plugins": [
+    "jsx-a11y",
+    "react-hooks",
+    "@babel/",
+    "import"
+  ],
+  "rules": {
+    "max-len": ["error", 150],
+    "indent": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "linebreak-style": "off",
+    "newline-before-return": "error",
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "new-cap": ["error", { "newIsCap": false }],
+    "no-useless-return": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"]
+        ]
+      }
+    ],
+    "no-console": ["warn", {"allow":  ["info", "error", "warn"]}],
+    "consistent-return": "off",
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "functions": "always-multiline",
+      "imports": "always-multiline"
+    }],
+    "no-throw-literal": "off",
+    "no-explicit-any": "off",
+    "no-use-before-define": "error",
+    "prefer-function-type": "off",
+    "quotes": [ "error", "single", { "avoidEscape": true } ],
+    "semi": [ "error",  "always" ],
+    "unbound-method": "off",
+    "no-useless-constructor": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "off",
+    "jest/valid-expect": "error",
+    "jest/prefer-called-with": "off",
+    "jest/no-hooks": "off",
+    "jest/prefer-expect-assertions": "off",
+    "no-underscore-dangle": "off",
+    "object-curly-newline": "off",
+    "import/prefer-default-export": "off",
+    "import/no-named-as-default": "off",
+
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-curly-newline": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "operator-assignment": ["error", "never"]
+  }
+}

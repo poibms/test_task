@@ -1,279 +1,231 @@
-import React, { Component } from 'react'
-
-
-import "./App.css"
-
-import Header from '../Header/Header'
-import Search_panel from '../Search-panel/Search-panel'
+import React, { Component } from 'react';
+import './App.css';
+import Header from '../Header/Header';
+import SearchPanel from '../SearchPanel/SearchPanel';
 import Weather from '../Weather/Weather';
-
-const axios = require("axios");
-const api_key = "002d4403ca0cb44523537de5c6cdfe1a";
-
-
+import { searchById, searchByName } from '../../Services/SearchServices';
+import { checkLogin } from '../../Services/RoutingServices';
+import { wrongValue } from '../../Config/Error';
+import LocalStorageServices from '../../Services/LocalStorageServices';
 
 export default class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = 
-        {
-            data:{
-                name: "",
-                country: "",
-                temp: "",
-                feel: "",
-                dt: "",
-                time: "",
-                weather: []
-            },
-            next_weather: [
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: {
+				name: '',
+				country: '',
+				temp: '',
+				feel: '',
+				crntDate: '',
+				time: '',
+				weather: [],
+			},
+			nextWeather: [],
+			posts: [],
+		};
+		this.submitRequestByName = this.submitRequestByName.bind(this);
+		this.deleteSearchHistoryItem = this.deleteSearchHistoryItem.bind(this);
+	}
 
-            ],
-            posts: [
-          
-            ]
-        }
-        this.onSubmit = this.onSubmit.bind(this);
-        this.deleteItem = this.deleteItem.bind(this);
-        
-    }
+	componentDidMount() {
+		checkLogin(this.props);
+		const posts = LocalStorageServices.getSearchHistory();
+		if (posts) {
+			this.setState({ posts });
+		}
+	}
 
-    componentDidMount() {
-        if(!localStorage.getItem("account")) {
-            window.location.assign('http://localhost:3000/signin')
-        } 
-        const posts = JSON.parse(localStorage.getItem("posts"))
-        if(posts) {
-            this.setState({posts: posts})
-        }
-    }
+	submitRequestByName = async (value) => {
+		await searchByName(value)
+			.then((response) => {
+				console.log(response);
+				const dt = Date(response.data.dt);
+				const crntDate = dt.slice(0, 15);
+				const time = dt.slice(16, 24);
+				const tempArr = response.data.list;
+				// eslint-disable-next-line no-plusplus
+				for (let index = 0; index < tempArr.length; index++) {
+					if (index === 0) {
+						this.setState({
+							data: {
+								name: response.data.city.name,
+								country: response.data.city.country,
+								temp: Math.ceil(tempArr[index].main.temp),
+								feel: Math.floor(tempArr[index].main.feels_like),
+								crntDate,
+								time,
+								weather: tempArr[index].weather,
+							},
+						});
+					} else {
+						this.setState(({ nextWeather }) => {
+							const newPost = {
+								temp: Math.ceil(tempArr[index].main.temp),
+								feels_like: Math.floor(tempArr[index].main.feels_like),
+								wind: tempArr[index].wind.speed,
+								time: tempArr[index].dt_txt.slice(11, 20),
+								id: tempArr[index].dt,
+							};
 
-    // getTime(value) {
-    //     var mnth = value.getMonth() + 1;
-    //     var dt = value.getDate();
-    //     var time = value.getHourse();
-        
-    //     return mnth + "." + dt + "." + time;
-    //  }
+							if (nextWeather.length === 4) {
+								// eslint-disable-next-line no-param-reassign
+								nextWeather = [];
+								const newData = [...nextWeather, newPost];
 
-    onSubmit(value) {
+								return {
+									nextWeather: newData,
+								};
+							}
+							const newData = [...nextWeather, newPost];
 
-        //не работает  api.openweathermap.org/data/2.5/forecast/daily?q={city name}&cnt={cnt}&appid={API key}
-        //работает(текущая) api.openweathermap.org/data/2.5/weather?q=${data}&appid=${api_key}
-        // 40 объектов... http://api.openweathermap.org/data/2.5/forecast?q=${value}&appid=${api_key}&units=metric
+							return {
+								nextWeather: newData,
+							};
+						});
+					}
+				}
 
-        axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${value}&cnt=5&appid=${api_key}&units=metric`)
-            .then((response) => {
-                console.log(response);
+				this.setState(({ posts }) => {
+					const newPost = {
+						name: response.data.city.name,
+						country: response.data.city.country,
+						id: response.data.city.id,
+					};
 
-                var dt = Date(response.data.dt);
-                var a = dt.slice(0,15);
-                var time = dt.slice(16,24);
+					const { id } = response.data.city;
 
-                var temp_arr = response.data.list
-               
+					const elem = posts.find((item) => item.id === id);
+					if (elem) {
+						const index = posts.indexOf(elem);
 
+						posts.splice(index, 1);
 
-                for (let index = 0; index < temp_arr.length; index++) {
-                     
-                    if(index === 0) {
-                        this.setState({
-                            data: {
-                                name: response.data.city.name,
-                                country: response.data.city.country,
-                                temp: Math.ceil(temp_arr[index].main.temp),
-                                feel: Math.floor(temp_arr[index].main.feels_like),
-                                dt: a,
-                                time: time,
-                                weather: temp_arr[index].weather,
+						const newData = [...posts, newPost];
 
-                            },
-                        })
-                     } else {
-                        this.setState(({next_weather}) => {
-                                
-                                const newPost = {
-                                    temp: Math.ceil(temp_arr[index].main.temp),
-                                    feels_like: Math.floor(temp_arr[index].main.feels_like),
-                                    wind: temp_arr[index].wind.speed,
-                                    time: temp_arr[index].dt_txt.slice(11,20),
-                                    id: temp_arr[index].dt,
-                                    
-                                }
+						return {
+							posts: newData,
+						};
+					}
+					const newData = [...posts, newPost];
 
-                                if(next_weather.length === 4){
-                                    next_weather = []
-                                    const newData = [...next_weather, newPost];
-                                    return {
-                                        next_weather: newData
-                                    }
-                                } else {
-                                    const newData = [...next_weather, newPost];
-                                    return {
-                                        next_weather: newData
-                                    }
-                                }
-                                
-                        })  
+					return {
+						posts: newData,
+					};
+				});
+				LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
+			})
+			.catch((e) => {
+				alert(wrongValue, e);
+			});
+	};
 
-                     }  
-                     console.log(this.state.next_weather)           
-                } 
-                
-                this.setState(({posts}) => {
-                    const newPost = {
-                        name: response.data.city.name,
-                        country: response.data.city.country,
-                        id: response.data.city.id
-                    }
+	submitRequestById = async (id) => {
+		const response = await searchById(id);
+		const dt = Date(response.data.dt);
+		const crntDate = dt.slice(0, 15);
+		const time = dt.slice(16, 24);
 
-                    var id = response.data.city.id
-                    console.log(id)
-                    
-                    var elem = posts.find(item=> item.id === id);
-                    if(elem) {
-                        var index = posts.indexOf(elem);
+		const tempArr = response.data.list;
 
-                        posts.splice(index,1)
+		for (let index = 0; index < tempArr.length; index = index + 1) {
+			if (index === 0) {
+				this.setState({
+					data: {
+						name: response.data.city.name,
+						country: response.data.city.country,
+						temp: Math.ceil(tempArr[index].main.temp),
+						feel: Math.floor(tempArr[index].main.feels_like),
+						crntDate,
+						time,
+						weather: tempArr[index].weather,
+					},
+				});
+			} else {
+				this.setState(({ nextWeather }) => {
+					const newPost = {
+						temp: Math.ceil(tempArr[index].main.temp),
+						feels_like: Math.floor(tempArr[index].main.feels_like),
+						wind: tempArr[index].wind.speed,
+						time: tempArr[index].dt_txt.slice(11, 20),
+						id: tempArr[index].dt,
+					};
 
-                        console.log(posts);
-                        const newData = [...posts, newPost];
-                        return {
-                            posts: newData
-                        }
+					if (nextWeather.length === 4) {
+						// nextWeather = [];
+						nextWeather.splice(0, nextWeather.length);
+						const newData = [...nextWeather, newPost];
 
-                    } else {
-                        const newData = [...posts, newPost];
-                        return {
-                            posts: newData
-                        }
-                    }
-                    
-                })
-                localStorage.setItem("posts", JSON.stringify(this.state.posts))
-                
-                
-            }).catch((error) => {
-                alert("Wrong City");
-            })
-    }
+						return {
+							nextWeather: newData,
+						};
+					}
+					const newData = [...nextWeather, newPost];
 
-    
-    searchById = async(id) => {
-        await axios.get(`http://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=5&appid=${api_key}&units=metric`)
-        .then((response) => {
-            console.log(response.data)
-            var dt = Date(response.data.dt);
-            var a = dt.slice(0,15);
-            var time = dt.slice(16,24);
+					return {
+						nextWeather: newData,
+					};
+				});
+			}
+		}
 
-            var temp_arr = response.data.list
-            
-            for (let index = 0; index < temp_arr.length; index++) {
-                 if(index === 0) {
-                    this.setState({
-                        data: {
-                            name: response.data.city.name,
-                            country: response.data.city.country,
-                            temp: Math.ceil(temp_arr[index].main.temp),
-                            feel: Math.floor(temp_arr[index].main.feels_like),
-                            dt: a,
-                            time: time,
-                            weather: temp_arr[index].weather                         
-                        },
-                    })
-                 } else {
-                    this.setState(({next_weather}) => {
-                            const newPost = {
-                                temp: Math.ceil(temp_arr[index].main.temp),
-                                feels_like: Math.floor(temp_arr[index].main.feels_like),
-                                wind: temp_arr[index].wind.speed,
-                                time: temp_arr[index].dt_txt.slice(11,20),
-                                id: temp_arr[index].dt
-                            }
-                            if(next_weather.length === 4){
-                                next_weather = []
-                                const newData = [...next_weather, newPost];
-                                return {
-                                    next_weather: newData
-                                }
-                            } else {
-                                const newData = [...next_weather, newPost];
-                                return {
-                                    next_weather: newData
-                                }
-                            }
-                    })                       
-                 }             
-            } 
-            
-            this.setState(({posts}) => {
-                const newPost = {
-                    name: response.data.city.name,
-                    country: response.data.city.country,
-                    id: response.data.city.id
-                }
+		this.setState(({ posts }) => {
+			const newPost = {
+				name: response.data.city.name,
+				country: response.data.city.country,
+				id: response.data.city.id,
+			};
 
-                
-                var elem = posts.find(item=> item.id === id);
-                if(elem) {
-                    var index = posts.indexOf(elem);
+			const elem = posts.find((item) => item.id === id);
+			if (elem) {
+				const index = posts.indexOf(elem);
+				posts.splice(index, 1);
+				const newData = [...posts, newPost];
 
-                    posts.splice(index,1)
+				return {
+					posts: newData,
+				};
+			}
+			const newData = [...posts, newPost];
 
-                    console.log(posts);
-                    const newData = [...posts, newPost];
-                    return {
-                        posts: newData
-                    }
+			return {
+				posts: newData,
+			};
+		});
 
-                } else {
-                    const newData = [...posts, newPost];
-                    return {
-                        posts: newData
-                    }
-                }
-                
-            })
-            localStorage.setItem("posts", JSON.stringify(this.state.posts))
-        })
-    }
+		LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
+	};
 
-    deleteItem = async(id) => {
-       await this.setState(({posts}) => ({
-            posts: posts.filter(item => item.id != id)
-        }))
-        console.log(this.state.posts)
-        localStorage.setItem("posts",JSON.stringify(this.state.posts))
-    }
+	deleteSearchHistoryItem = async (id) => {
+		await this.setState(({ posts }) => ({
+			posts: posts.filter((item) => item.id !== id),
+		}));
+		LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
+	};
 
+	render() {
+		const { data, posts, nextWeather } = this.state;
 
-
-
-    render() {
-
-        const{data, posts, next_weather} = this.state;
-        
-        
-        return (
-            <> 
-                <div className="wrapper ">
-                    <div className="content">
-                    <Header/>
-                        <div className="search-panel">
-                            <Search_panel onSubmit={this.onSubmit}/>
-                            
-                        </div>
-                        <div className="main">
-                            <Weather data={data} posts={posts} next_weather={next_weather} 
-                            onSearch={this.searchById} onDeleteItem={this.deleteItem}/>
-                        </div>
-                    </div>
-                </div>
-            
-            </>
-        )
-    }
+		return (
+			<>
+				<div className="wrapper">
+					<div className="content">
+						<Header {...this.props} />
+						<div className="search-panel">
+							<SearchPanel onSubmitByName={this.submitRequestByName} />
+						</div>
+						<div className="main">
+							<Weather
+								data={data}
+								posts={posts}
+								nextWeather={nextWeather}
+								onSubmitById={this.submitRequestById}
+								onDeleteItem={this.deleteSearchHistoryItem}
+							/>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	}
 }
-
-
