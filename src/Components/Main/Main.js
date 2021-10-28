@@ -39,7 +39,6 @@ export default class Main extends Component {
 	submitRequestByName = async (value) => {
 		await searchByName(value)
 			.then((response) => {
-				console.log(response);
 				const dt = Date(response.data.dt);
 				const crntDate = dt.slice(0, 15);
 				const time = dt.slice(16, 24);

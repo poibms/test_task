@@ -5,22 +5,6 @@ import SearchPanel from './SearchPanel';
 
 configure({ adapter: new Adapter() });
 
-// describe('Search component', () => {
-// 	it('should be render input component', () => {
-// 		const component = shallow(<SearchPanel />);
-// 		expect(component).toMatchSnapshot();
-// 	});
-//
-// 	it('should call click method', () => {
-// 		const mockCallBack = jest.fn();
-// 		const component = shallow(<SearchPanel />);
-// 		const input = component.find('input').first();
-// 		const inputt = shallow(<input onChange={mockCallBack} />);
-// 		inputt.simulate('change');
-// 		// component.find('.onSearch').simulate('click');
-// 		expect(mockCallBack.mock.calls.length).toEqual(1);
-// 	});
-// });
 const setUp = shallow(<SearchPanel />);
 describe('Search component', () => {
 	const mockCallBack = jest.fn();
@@ -40,7 +24,4 @@ describe('Search component', () => {
 		expect(mockCallBack.mock.calls.length).toBe(1);
 	});
 
-	// it('testing onchange', () => {
-	//
-	// })
 });
