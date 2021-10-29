@@ -4,7 +4,6 @@ import Header from '../Header/Header';
 import SearchPanel from '../SearchPanel/SearchPanel';
 import Weather from '../Weather/Weather';
 import { searchById, searchByName } from '../../Services/SearchServices';
-import { checkLogin } from '../../Services/RoutingServices';
 import { wrongValue } from '../../Config/Error';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 
@@ -29,7 +28,6 @@ export default class Main extends Component {
 	}
 
 	componentDidMount() {
-		checkLogin(this.props);
 		const posts = LocalStorageServices.getSearchHistory();
 		if (posts) {
 			this.setState({ posts });

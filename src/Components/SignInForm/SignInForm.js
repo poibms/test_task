@@ -35,7 +35,6 @@ export default class SignInForm extends Component {
 
 	onSubmitSignInForm(event) {
 		event.preventDefault();
-		// const {onSubmit} = this.props
 		const { login, email, password } = this.state;
 		this.props.onSubmit(login, email, password);
 	}

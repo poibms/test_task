@@ -1,25 +1,17 @@
 import React from 'react';
-import { checkLogin } from '../Services/RoutingServices';
+import { AuthContext } from '../Components/Helpers/AuthContext';
 
 function requireAuthentication(Component) {
 	return class Authentication extends React.Component {
-		constructor(props) {
-			super(props);
-			// this.state = {
-			// 	isLoggin: checkLogin(),
-			// };
-			// this.handleChange = this.handleChange.bind(this);
-		}
+		// eslint-disable-next-line react/static-property-placement
+		static contextType = AuthContext;
 
 		componentDidMount() {
-			if (check) {
-				this.handleChange(check);
+			if (this.context.isLoggin) {
 				this.props.history.push('/');
 			} else {
-				this.handleChange(check);
 				this.props.history.push('/signin');
 			}
-			// checkLogin();
 		}
 
 		render() {

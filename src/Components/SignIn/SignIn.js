@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { checkLogin } from '../../Services/RoutingServices';
 import SignInForm from '../SignInForm/SignInForm';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 import { wrongPassword } from '../../Config/Error';
-import { mainPage } from '../../Config/Routes';
 import './SignIn.css';
 import passwordValidation from '../../Services/Validation';
+import { AuthContext } from '../Helpers/AuthContext';
 
 class SignIn extends Component {
-	componentDidMount() {
-		checkLogin(this.props);
-	}
+	// eslint-disable-next-line react/static-property-placement
+	static contextType = AuthContext;
 
 	signInUserAccount = (login, email, password) => {
+		const { toggleAuthStatus } = this.context;
 		const numbers = /[A-Z\d]/g;
 		const passValid = passwordValidation(password, numbers);
 		if (passValid) {
 			const token = login + email + password;
 			LocalStorageServices.createAccount(token);
-			this.props.history.push(mainPage);
+			toggleAuthStatus();
 		} else {
 			alert(wrongPassword);
 		}

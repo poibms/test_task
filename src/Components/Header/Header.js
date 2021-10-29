@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Header.css';
 
 import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
 import LocalStorageServices from '../../Services/LocalStorageServices';
-import { signIn } from '../../Config/Routes';
+import { AuthContext } from '../Helpers/AuthContext';
 
-const Headers = ({ history }) => {
-	const logOutUser = () => {
-		LocalStorageServices.removeAccount();
-		history.push(signIn);
-	};
+class Headers extends Component {
+	// eslint-disable-next-line react/static-property-placement
+	static contextType = AuthContext;
 
-	return (
-		<div className="header">
-			<h1>Weather App</h1>
-			<LogOutUserAccount onLogout={logOutUser} />
-		</div>
-	);
-};
+	render() {
+		const { toggleAuthStatus } = this.context;
+		const logOut = () => {
+			LocalStorageServices.removeAccount();
+			toggleAuthStatus();
+		};
+
+		return (
+			<div className="header">
+				<h1>Weather app</h1>
+				<LogOutUserAccount onLogout={logOut} />
+			</div>
+		);
+	}
+}
 export default Headers;
