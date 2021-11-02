@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './SignInForm.css';
 
-export default class SignInForm extends Component {
+class SignInForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -63,3 +63,4 @@ export default class SignInForm extends Component {
 		);
 	}
 }
+export default SignInForm;

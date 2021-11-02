@@ -1,8 +1,8 @@
 import React from 'react';
 import { getIcon } from '../../Services/SearchServices';
 
-function CurrentWeather(props) {
-	const { data, nextWeather } = props;
+function CurrentWeather({ data, nextWeather }) {
+	// const { data, nextWeather } = props;
 	const icon = data.weather.map((item) => (
 		<img alt="icon" key={item.id} src={getIcon(item.icon)} />
 	));
@@ -45,7 +45,7 @@ function CurrentWeather(props) {
 					{weather} Feels like {data.feel} °C. {data.state}
 				</div>
 			</div>
-			<div className="main-content_footer">{nearestWeather}</div>;
+			<div className="main-content_footer">{nearestWeather}</div>
 		</>
 	);
 }

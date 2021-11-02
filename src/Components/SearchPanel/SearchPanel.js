@@ -35,7 +35,7 @@ export default class SearchPanel extends Component {
 				<input
 					className="onChange"
 					type="text"
-					placeholder="type ur city"
+					placeholder="Enter city"
 					value={value}
 					onChange={this.onChangeSearchInput}
 				/>

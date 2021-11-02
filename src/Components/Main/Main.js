@@ -1,36 +1,31 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import SearchPanel from '../SearchPanel/SearchPanel';
 import Weather from '../Weather/Weather';
 import { searchById, searchByName } from '../../Services/SearchServices';
 import { wrongValue } from '../../Config/Error';
 import LocalStorageServices from '../../Services/LocalStorageServices';
+import {
+	addCurntWeather,
+	addSearchHistory,
+	addNearestWeather,
+	removeSearchHistory,
+} from '../../Actions/ActionCreator';
 
-export default class Main extends Component {
+class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			data: {
-				name: '',
-				country: '',
-				temp: '',
-				feel: '',
-				crntDate: '',
-				time: '',
-				weather: [],
-			},
-			nextWeather: [],
-			posts: [],
-		};
+
 		this.submitRequestByName = this.submitRequestByName.bind(this);
-		this.deleteSearchHistoryItem = this.deleteSearchHistoryItem.bind(this);
 	}
 
-	componentDidMount() {
-		const posts = LocalStorageServices.getSearchHistory();
-		if (posts) {
-			this.setState({ posts });
+	componentDidUpdate(prevProps) {
+		const { searchHistory } = this.props;
+
+		if (prevProps.searchHistory !== searchHistory) {
+			LocalStorageServices.addSearchHistory(JSON.stringify(searchHistory));
 		}
 	}
 
@@ -41,76 +36,65 @@ export default class Main extends Component {
 				const crntDate = dt.slice(0, 15);
 				const time = dt.slice(16, 24);
 				const tempArr = response.data.list;
+
+				// eslint-disable-next-line no-shadow
+				const { nearestWeather, addCurntWeather, addNearestWeather } =
+					this.props;
 				// eslint-disable-next-line no-plusplus
 				for (let index = 0; index < tempArr.length; index++) {
 					if (index === 0) {
-						this.setState({
-							data: {
-								name: response.data.city.name,
-								country: response.data.city.country,
-								temp: Math.ceil(tempArr[index].main.temp),
-								feel: Math.floor(tempArr[index].main.feels_like),
-								crntDate,
-								time,
-								weather: tempArr[index].weather,
-							},
-						});
+						const newCurWeather = {
+							name: response.data.city.name,
+							country: response.data.city.country,
+							temp: Math.ceil(tempArr[index].main.temp),
+							feel: Math.floor(tempArr[index].main.feels_like),
+							crntDate,
+							time,
+							weather: tempArr[index].weather,
+						};
+						addCurntWeather(newCurWeather);
 					} else {
-						this.setState(({ nextWeather }) => {
-							const newPost = {
-								temp: Math.ceil(tempArr[index].main.temp),
-								feels_like: Math.floor(tempArr[index].main.feels_like),
-								wind: tempArr[index].wind.speed,
-								time: tempArr[index].dt_txt.slice(11, 20),
-								id: tempArr[index].dt,
-							};
+						const newNearestWeather = {
+							temp: Math.ceil(tempArr[index].main.temp),
+							feels_like: Math.floor(tempArr[index].main.feels_like),
+							wind: tempArr[index].wind.speed,
+							time: tempArr[index].dt_txt.slice(11, 20),
+							id: tempArr[index].dt,
+						};
 
-							if (nextWeather.length === 4) {
-								// eslint-disable-next-line no-param-reassign
-								nextWeather = [];
-								const newData = [...nextWeather, newPost];
+						if (nearestWeather.length === 4) {
+							// eslint-disable-next-line no-param-reassign
+							nearestWeather.splice(0, nearestWeather.length);
 
-								return {
-									nextWeather: newData,
-								};
-							}
-							const newData = [...nextWeather, newPost];
-
-							return {
-								nextWeather: newData,
-							};
-						});
+							return newNearestWeather;
+						}
+						addNearestWeather(newNearestWeather);
 					}
 				}
 
-				this.setState(({ posts }) => {
-					const newPost = {
-						name: response.data.city.name,
-						country: response.data.city.country,
-						id: response.data.city.id,
-					};
+				const { searchHistory } = this.props;
+				const newPost = {
+					name: response.data.city.name,
+					country: response.data.city.country,
+					id: response.data.city.id,
+				};
+				const { id } = response.data.city;
+				// eslint-disable-next-line no-shadow
+				const { addSearchHistory } = this.props;
+				const elem = searchHistory.find((item) => item.id === id);
+				if (elem) {
+					const index = searchHistory.indexOf(elem);
+					searchHistory.splice(index, 1);
 
-					const { id } = response.data.city;
+					const newData = [...searchHistory, newPost];
+					addSearchHistory(newPost);
 
-					const elem = posts.find((item) => item.id === id);
-					if (elem) {
-						const index = posts.indexOf(elem);
+					return newData;
+				}
+				const newData = [...searchHistory, newPost];
+				addSearchHistory(newPost);
 
-						posts.splice(index, 1);
-
-						const newData = [...posts, newPost];
-
-						return {
-							posts: newData,
-						};
-					}
-					const newData = [...posts, newPost];
-
-					return {
-						posts: newData,
-					};
-				});
-				LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
+				LocalStorageServices.addSearchHistory(JSON.stringify(newData));
 			})
 			.catch((e) => {
 				alert(wrongValue, e);
@@ -124,84 +108,61 @@ export default class Main extends Component {
 		const time = dt.slice(16, 24);
 
 		const tempArr = response.data.list;
-
+		// eslint-disable-next-line no-shadow
+		const { nearestWeather, addCurntWeather, addNearestWeather } = this.props;
 		for (let index = 0; index < tempArr.length; index = index + 1) {
 			if (index === 0) {
-				this.setState({
-					data: {
-						name: response.data.city.name,
-						country: response.data.city.country,
-						temp: Math.ceil(tempArr[index].main.temp),
-						feel: Math.floor(tempArr[index].main.feels_like),
-						crntDate,
-						time,
-						weather: tempArr[index].weather,
-					},
-				});
+				const newCurWeather = {
+					name: response.data.city.name,
+					country: response.data.city.country,
+					temp: Math.ceil(tempArr[index].main.temp),
+					feel: Math.floor(tempArr[index].main.feels_like),
+					crntDate,
+					time,
+					weather: tempArr[index].weather,
+				};
+				addCurntWeather(newCurWeather);
 			} else {
-				this.setState(({ nextWeather }) => {
-					const newPost = {
-						temp: Math.ceil(tempArr[index].main.temp),
-						feels_like: Math.floor(tempArr[index].main.feels_like),
-						wind: tempArr[index].wind.speed,
-						time: tempArr[index].dt_txt.slice(11, 20),
-						id: tempArr[index].dt,
-					};
+				const newNearestWeather = {
+					temp: Math.ceil(tempArr[index].main.temp),
+					feels_like: Math.floor(tempArr[index].main.feels_like),
+					wind: tempArr[index].wind.speed,
+					time: tempArr[index].dt_txt.slice(11, 20),
+					id: tempArr[index].dt,
+				};
 
-					if (nextWeather.length === 4) {
-						// nextWeather = [];
-						nextWeather.splice(0, nextWeather.length);
-						const newData = [...nextWeather, newPost];
+				if (nearestWeather.length === 4) {
+					// eslint-disable-next-line no-param-reassign
+					nearestWeather.splice(0, nearestWeather.length);
 
-						return {
-							nextWeather: newData,
-						};
-					}
-					const newData = [...nextWeather, newPost];
-
-					return {
-						nextWeather: newData,
-					};
-				});
+					return newNearestWeather;
+				}
+				addNearestWeather(newNearestWeather);
 			}
 		}
 
-		this.setState(({ posts }) => {
-			const newPost = {
-				name: response.data.city.name,
-				country: response.data.city.country,
-				id: response.data.city.id,
-			};
+		const { searchHistory } = this.props;
+		// eslint-disable-next-line no-shadow
+		const { addSearchHistory } = this.props;
+		const newPost = {
+			name: response.data.city.name,
+			country: response.data.city.country,
+			id: response.data.city.id,
+		};
 
-			const elem = posts.find((item) => item.id === id);
-			if (elem) {
-				const index = posts.indexOf(elem);
-				posts.splice(index, 1);
-				const newData = [...posts, newPost];
+		const elem = searchHistory.find((item) => item.id === id);
+		const index = searchHistory.indexOf(elem);
+		searchHistory.splice(index, 1);
+		const newData = [...searchHistory, newPost];
+		addSearchHistory(newPost);
 
-				return {
-					posts: newData,
-				};
-			}
-			const newData = [...posts, newPost];
-
-			return {
-				posts: newData,
-			};
-		});
-
-		LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
-	};
-
-	deleteSearchHistoryItem = async (id) => {
-		await this.setState(({ posts }) => ({
-			posts: posts.filter((item) => item.id !== id),
-		}));
-		LocalStorageServices.addSearchHistory(JSON.stringify(this.state.posts));
+		LocalStorageServices.addSearchHistory(JSON.stringify(newData));
 	};
 
 	render() {
-		const { data, posts, nextWeather } = this.state;
+		// eslint-disable-next-line no-shadow
+		const { crntWeather, searchHistory, nearestWeather, removeSearchHistory } =
+			this.props;
 
 		return (
 			<>
@@ -213,11 +174,11 @@ export default class Main extends Component {
 						</div>
 						<div className="main">
 							<Weather
-								data={data}
-								posts={posts}
-								nextWeather={nextWeather}
+								data={crntWeather}
+								posts={searchHistory}
+								nextWeather={nearestWeather}
 								onSubmitById={this.submitRequestById}
-								onDeleteItem={this.deleteSearchHistoryItem}
+								onDeleteItem={removeSearchHistory}
 							/>
 						</div>
 					</div>
@@ -226,3 +187,11 @@ export default class Main extends Component {
 		);
 	}
 }
+export default connect(
+	(state) => ({
+		crntWeather: state.crntWeather,
+		searchHistory: state.searchHistory,
+		nearestWeather: state.nearestWeather,
+	}),
+	{ addCurntWeather, addSearchHistory, addNearestWeather, removeSearchHistory },
+)(Main);
