@@ -1,5 +1,6 @@
 import React from 'react';
 import { AuthContext } from '../Components/Helpers/AuthContext';
+import { mainPage, signIn } from '../Config/Routes';
 
 function requireAuthentication(Component) {
 	return class Authentication extends React.Component {
@@ -8,9 +9,9 @@ function requireAuthentication(Component) {
 
 		componentDidMount() {
 			if (this.context.isLoggin) {
-				this.props.history.push('/');
+				this.props.history.push(mainPage);
 			} else {
-				this.props.history.push('/signin');
+				this.props.history.push(signIn);
 			}
 		}
 
