@@ -1,12 +1,11 @@
-import {
-	ADD_SEARCH_HISHORY,
-	ADD_CURNT_WEATHER,
-	ADD_NEAREST_WEATHER,
-	REMOVE_SEARCH_HISTORY,
-} from '../Config/ReduxConstants/ActionConstants';
 import LocalStorageServices from '../Services/LocalStorageServices';
 import { searchById, searchByName } from '../Services/SearchServices';
 import { wrongValue } from '../Config/Error';
+// import setWeatherValue from '../Services/SetWeatherServices';
+import { ADD_CURNT_WEATHER } from '../Actions/CurrentWeatherAction/CurrentWeatherConstant';
+import { ADD_SEARCH_HISHORY } from '../Actions/SearchHistoryAction/SearchHistoryConstant';
+import { ADD_NEAREST_WEATHER } from '../Actions/NearestWeather/NearestWeatherConstant';
+import { REMOVE_SEARCH_HISTORY } from '../Actions/RemoveSearchHistory/RemoveSearchHistoryConstant';
 
 const posts = LocalStorageServices.getSearchHistory();
 

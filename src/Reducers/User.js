@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/named
-import { ISLOGIN } from '../Config/ReduxConstants/ActionConstants';
+import { ISLOGIN } from '../Actions/UserStatusAction/UserStatusConstant';
 
 const user = (state = false, { type, status }) => {
 	switch (type) {

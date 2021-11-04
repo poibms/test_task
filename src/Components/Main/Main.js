@@ -5,12 +5,7 @@ import Header from '../Header/Header';
 import SearchPanel from '../SearchPanel/SearchPanel';
 import Weather from '../Weather/Weather';
 import LocalStorageServices from '../../Services/LocalStorageServices';
-import {
-	addCurntWeather,
-	addSearchHistory,
-	addNearestWeather,
-	removeSearchHistory,
-} from '../../Actions/ActionCreator';
+import { removeSearchHistory } from '../../Actions/RemoveSearchHistory';
 import { getWeatherById, getWeatherByName } from '../../Reducers/Weather';
 
 class Main extends Component {
@@ -190,9 +185,6 @@ export default connect(
 		nearestWeather: state.nearestWeather,
 	}),
 	{
-		addCurntWeather,
-		addSearchHistory,
-		addNearestWeather,
 		removeSearchHistory,
 		getByName: getWeatherByName,
 		getById: getWeatherById,

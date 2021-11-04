@@ -1,0 +1,1 @@
+export const ADD_CURNT_WEATHER = 'ADD_CURNT_WEATHER';
