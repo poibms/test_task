@@ -6,6 +6,7 @@ function requireAuthentication(Component) {
 	return class Authentication extends React.Component {
 		// eslint-disable-next-line react/static-property-placement
 		static contextType = AuthContext;
+    console.log('hello');
 
 		componentDidMount() {
 			if (this.context.isLoggin) {
