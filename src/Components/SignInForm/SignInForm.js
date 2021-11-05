@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './SignInForm.css';
 
-export default class SignInForm extends Component {
+class SignInForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -9,33 +9,21 @@ export default class SignInForm extends Component {
 			email: '',
 			password: '',
 		};
-		this.onLoginInputChange = this.onLoginInputChange.bind(this);
-		this.onEmailInputChange = this.onEmailInputChange.bind(this);
-		this.onPasswordInputChange = this.onPasswordInputChange.bind(this);
+		this.onFormInputChange = this.onFormInputChange.bind(this);
 		this.onSubmitSignInForm = this.onSubmitSignInForm.bind(this);
 	}
 
-	onLoginInputChange(event) {
+	onFormInputChange(event) {
+		const evTarget = event.target;
+		const evValue = evTarget.value;
+		const evName = evTarget.name;
 		this.setState({
-			login: event.target.value,
-		});
-	}
-
-	onEmailInputChange(event) {
-		this.setState({
-			email: event.target.value,
-		});
-	}
-
-	onPasswordInputChange(event) {
-		this.setState({
-			password: event.target.value,
+			[evName]: evValue,
 		});
 	}
 
 	onSubmitSignInForm(event) {
 		event.preventDefault();
-		// const {onSubmit} = this.props
 		const { login, email, password } = this.state;
 		this.props.onSubmit(login, email, password);
 	}
@@ -51,21 +39,21 @@ export default class SignInForm extends Component {
 							type="text"
 							name="login"
 							placeholder="Username"
-							onChange={this.onLoginInputChange}
+							onChange={this.onFormInputChange}
 						/>
 
 						<input
 							type="email"
 							name="email"
 							placeholder="Email"
-							onChange={this.onEmailInputChange}
+							onChange={this.onFormInputChange}
 						/>
 
 						<input
 							type="password"
 							name="password"
 							placeholder="Password"
-							onChange={this.onPasswordInputChange}
+							onChange={this.onFormInputChange}
 						/>
 
 						<input type="submit" value="Sign Up" />
@@ -75,3 +63,4 @@ export default class SignInForm extends Component {
 		);
 	}
 }
+export default SignInForm;

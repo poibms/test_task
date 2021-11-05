@@ -1,52 +1,18 @@
 import React from 'react';
-import { checkLogin } from '../Services/RoutingServices';
+import { AuthContext } from '../Components/Helpers/AuthContext';
+import { mainPage, signIn } from '../Config/Routes';
 
 function requireAuthentication(Component) {
 	return class Authentication extends React.Component {
-		constructor(props) {
-			super(props);
-			this.state = {
-				isLoggin: checkLogin(),
-			};
-			this.handleChange = this.handleChange.bind(this);
-		}
+		// eslint-disable-next-line react/static-property-placement
+		static contextType = AuthContext;
 
 		componentDidMount() {
-			console.log(this.props);
-			const check = checkLogin();
-			if (check) {
-				this.handleChange(check);
-				this.props.history.push('/');
+			if (this.context.isLoggin) {
+				this.props.history.push(mainPage);
 			} else {
-				this.handleChange(check);
-				this.props.history.push('/signin');
+				this.props.history.push(signIn);
 			}
-			// checkLogin();
-		}
-
-		componentWillUnmount() {
-			// if (prevState !== this.props.is) {
-			// 	prevProps.history.push('/');
-			// } else {
-			// 	prevProps.history.push('/signin');
-			// }
-			// if (checkLogin()) {
-			// 	this.props.history.push('/');
-			// } else {
-			// 	prevProps.history.push('/signin');
-			// }
-			if (checkLogin()) {
-				this.props.history.push('/');
-			} else {
-				this.props.history.push('/signin');
-			}
-			// console.log(prevProps);
-		}
-
-		handleChange(newState) {
-			this.setState({
-				isLoggin: newState,
-			});
 		}
 
 		render() {

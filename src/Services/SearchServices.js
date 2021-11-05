@@ -1,5 +1,5 @@
 import { apiKey, imgUrl, regularRote, units } from '../Config/Api';
-import BaseSearchClass from './BaseSearchClass';
+import BaseHttp from './BaseHttp';
 
 const configureLinkByName = (value) => {
 	const linkByName = `${regularRote}q=${value}&cnt=5&appid=${apiKey}${units}`;
@@ -14,10 +14,10 @@ const configureLinkById = (id) => {
 };
 
 export const searchByName = async (value) =>
-	BaseSearchClass.http.get(configureLinkByName(value));
+	BaseHttp.http.get(configureLinkByName(value));
 
 export const searchById = async (id) =>
-	BaseSearchClass.http.get(configureLinkById(id));
+	BaseHttp.http.get(configureLinkById(id));
 
 export const getIcon = (id) => {
 	return `${imgUrl}img/wn/${id}@2x.png`;

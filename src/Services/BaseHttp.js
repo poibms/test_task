@@ -2,7 +2,7 @@ import { baseUrl } from '../Config/Api';
 
 const axios = require('axios');
 
-class BaseSearchClass {
+class BaseHttp {
 	http;
 
 	constructor() {
@@ -30,4 +30,4 @@ class BaseSearchClass {
 	}
 }
 
-export default new BaseSearchClass();
+export default new BaseHttp();
