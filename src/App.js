@@ -8,8 +8,8 @@ import { checkLogin } from './Services/RoutingServices';
 import requireAuthentication from './Hoc/UserStatus';
 
 class App extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.onChangeAuthStatus = () => {
 			this.setState({
 				// eslint-disable-next-line react/no-unused-state

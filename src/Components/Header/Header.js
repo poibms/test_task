@@ -10,10 +10,10 @@ class Headers extends Component {
 	static contextType = AuthContext;
 
 	render() {
-		const { toggleAuthStatus } = this.context;
+		const { checkUserStatus } = this.props;
 		const logOut = () => {
 			LocalStorageServices.removeAccount();
-			toggleAuthStatus();
+			checkUserStatus();
 		};
 
 		return (

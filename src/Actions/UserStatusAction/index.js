@@ -1,6 +1,5 @@
 import { ISLOGIN } from './UserStatusConstant';
 
-export const checkUserStatus = (status) => ({
+export const checkUserStatus = () => ({
 	type: ISLOGIN,
-	status,
 });

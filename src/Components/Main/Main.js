@@ -10,6 +10,7 @@ import { getWeatherById, getWeatherByName } from '../../Reducers/Weather';
 import { addNearestWeather } from '../../Actions/NearestWeather';
 import { addSearchHistory } from '../../Actions/SearchHistoryAction';
 import { addCurntWeather } from '../../Actions/CurrentWeatherAction/Index';
+import { checkUserStatus } from '../../Actions/UserStatusAction';
 
 class Main extends Component {
 	componentDidUpdate(prevProps) {
@@ -63,6 +64,7 @@ export default connect(
 		nearestWeather: state.nearestWeather,
 	}),
 	{
+		checkUserStatus,
 		addCurntWeather,
 		addNearestWeather,
 		addSearchHistory,

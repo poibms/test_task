@@ -1,9 +1,10 @@
 import { ISLOGIN } from '../Actions/UserStatusAction/UserStatusConstant';
+import { checkLogin } from '../Services/RoutingServices';
 
-const user = (state = false, { type, status }) => {
+const user = (state = checkLogin(), { type }) => {
 	switch (type) {
 		case ISLOGIN:
-			return status;
+			return checkLogin();
 		default:
 			return state;
 	}
