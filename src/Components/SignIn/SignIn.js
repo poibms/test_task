@@ -4,15 +4,11 @@ import SignInForm from '../SignInForm/SignInForm';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 import { wrongPassword } from '../../Config/Error';
 import passwordValidation from '../../Services/Validation';
-import { AuthContext } from '../Helpers/AuthContext';
 import { checkUserStatus } from '../../Actions/UserStatusAction';
 
 import './SignIn.css';
 
 class SignIn extends Component {
-	// eslint-disable-next-line react/static-property-placement
-	static contextType = AuthContext;
-
 	signInUserAccount = (login, email, password) => {
 		// eslint-disable-next-line no-shadow
 		const { checkUserStatus } = this.props;

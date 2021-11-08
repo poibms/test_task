@@ -1,7 +1,6 @@
 import LocalStorageServices from '../Services/LocalStorageServices';
 import { searchById, searchByName } from '../Services/SearchServices';
 import { wrongValue } from '../Config/Error';
-// import setWeatherValue from '../Services/SetWeatherServices';
 import { ADD_CURNT_WEATHER } from '../Actions/CurrentWeatherAction/CurrentWeatherConstant';
 import { ADD_SEARCH_HISHORY } from '../Actions/SearchHistoryAction/SearchHistoryConstant';
 import { ADD_NEAREST_WEATHER } from '../Actions/NearestWeather/NearestWeatherConstant';
@@ -19,12 +18,12 @@ export const crntWeather = (state = {}, { obj, type }) => {
 	}
 };
 
-export const searchHistory = (state = posts || [], { id, obj, type }) => {
+export const searchHistory = (state = posts || [], { arr, obj, type }) => {
 	switch (type) {
 		case ADD_SEARCH_HISHORY:
 			return [...state, obj];
 		case REMOVE_SEARCH_HISTORY:
-			return [...state].filter((item) => item.id !== id);
+			return arr;
 		default:
 			return state;
 	}

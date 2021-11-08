@@ -14,6 +14,7 @@ import { checkUserStatus } from '../../Actions/UserStatusAction';
 
 class Main extends Component {
 	componentDidUpdate(prevProps) {
+		// eslint-disable-next-line no-shadow
 		const { searchHistory } = this.props;
 
 		if (prevProps.searchHistory !== searchHistory) {
@@ -29,10 +30,17 @@ class Main extends Component {
 		this.props.getById(id, this.props);
 	};
 
+	removeSearchItem = (id) => {
+		// eslint-disable-next-line no-shadow
+		const { searchHistory, removeSearchHistory } = this.props;
+		console.log(searchHistory);
+		const array = searchHistory.filter((item) => item.id !== id);
+		removeSearchHistory(array);
+	};
+
 	render() {
 		// eslint-disable-next-line no-shadow
-		const { crntWeather, searchHistory, nearestWeather, removeSearchHistory } =
-			this.props;
+		const { crntWeather, searchHistory, nearestWeather } = this.props;
 
 		return (
 			<>
@@ -48,7 +56,7 @@ class Main extends Component {
 								posts={searchHistory}
 								nextWeather={nearestWeather}
 								onSubmitById={this.submitRequestById}
-								onDeleteItem={removeSearchHistory}
+								onDeleteItem={this.removeSearchItem}
 							/>
 						</div>
 					</div>
