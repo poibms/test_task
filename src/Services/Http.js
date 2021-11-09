@@ -2,7 +2,7 @@ import { baseUrl } from '../Config/Api';
 
 const axios = require('axios');
 
-class BaseHttp {
+class Http {
 	http;
 
 	constructor() {
@@ -30,4 +30,4 @@ class BaseHttp {
 	}
 }
 
-export default new BaseHttp();
+export default new Http();

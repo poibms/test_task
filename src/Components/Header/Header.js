@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import './Header.css';
-
 import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
 import LocalStorageServices from '../../Services/LocalStorageServices';
-import { AuthContext } from '../Helpers/AuthContext';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Headers extends Component {
-	// eslint-disable-next-line react/static-property-placement
-	static contextType = AuthContext;
-
 	render() {
-		const { toggleAuthStatus } = this.context;
+		const { checkUserStatus } = this.props;
 		const logOut = () => {
 			LocalStorageServices.removeAccount();
-			toggleAuthStatus();
+			checkUserStatus();
 		};
 
 		return (
