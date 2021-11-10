@@ -6,6 +6,9 @@ import { ADD_SEARCH_HISHORY } from '../Actions/SearchHistoryAction/SearchHistory
 import { ADD_NEAREST_WEATHER } from '../Actions/NearestWeather/NearestWeatherConstant';
 import { REMOVE_SEARCH_HISTORY } from '../Actions/RemoveSearchHistory/RemoveSearchHistoryConstant';
 import setWeatherValue from '../Services/SetWeatherServices';
+import { addCurntWeather } from '../Actions/CurrentWeatherAction';
+import { addNearestWeather } from '../Actions/NearestWeather';
+import { addSearchHistory } from '../Actions/SearchHistoryAction';
 
 const posts = LocalStorageServices.getSearchHistory();
 
@@ -32,20 +35,21 @@ export const searchHistory = (state = posts || [], { arr, obj, type }) => {
 export const nearestWeather = (state = [], { obj, type }) => {
 	switch (type) {
 		case ADD_NEAREST_WEATHER:
-			return [...state, obj];
+			return obj;
 		default:
 			return state;
 	}
 };
 
-export const getWeatherByName = (value, props) => {
+export const getWeatherByName = (value, stateObj) => {
 	return (dispatch) => {
 		searchByName(value)
 			.then((response) => {
-				setWeatherValue(response, props);
-				dispatch(crntWeather);
-				dispatch(nearestWeather);
-				dispatch(searchHistory);
+				const answ = setWeatherValue(response, stateObj);
+				const { currentWeather, nextWeather, history } = answ;
+				dispatch(addCurntWeather(currentWeather));
+				dispatch(addNearestWeather(nextWeather));
+				dispatch(addSearchHistory(history));
 			})
 			.catch((e) => {
 				alert(wrongValue, e);
@@ -57,10 +61,11 @@ export const getWeatherById = (id, props) => {
 	return (dispatch) => {
 		searchById(id)
 			.then((response) => {
-				setWeatherValue(response, props, dispatch);
-				dispatch(crntWeather);
-				dispatch(nearestWeather);
-				dispatch(searchHistory);
+				const answ = setWeatherValue(response, props);
+				const { currentWeather, nextWeather, history } = answ;
+				dispatch(addCurntWeather(currentWeather));
+				dispatch(addNearestWeather(nextWeather));
+				dispatch(addSearchHistory(history));
 			})
 			.catch((e) => {
 				alert(wrongValue, e);

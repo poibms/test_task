@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import SignInForm from '../SignInForm/SignInForm';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 import { wrongPassword } from '../../Config/Error';
@@ -8,35 +8,27 @@ import { checkUserStatus } from '../../Actions/UserStatusAction';
 
 import './SignIn.css';
 
-class SignIn extends Component {
-	signInUserAccount = (login, email, password) => {
-		// eslint-disable-next-line no-shadow
-		const { checkUserStatus } = this.props;
-		const numbers = /[A-Z\d]/g;
-		const passValid = passwordValidation(password, numbers);
+const SignIn = () => {
+	const dispatch = useDispatch();
+
+	const signInUserAccount = (login, email, password) => {
+		const passValid = passwordValidation(password);
 		if (passValid) {
 			const token = login + email + password;
 			LocalStorageServices.createAccount(token);
-			checkUserStatus();
+			dispatch(checkUserStatus());
 		} else {
 			alert(wrongPassword);
 		}
 	};
 
-	render() {
-		return (
-			<>
-				<div className="wrap">
-					<SignInForm onSubmit={this.signInUserAccount} />
-				</div>
-			</>
-		);
-	}
-}
+	return (
+		<>
+			<div className="wrap">
+				<SignInForm onSubmit={signInUserAccount} />
+			</div>
+		</>
+	);
+};
 
-export default connect(
-	(state) => ({
-		user: state.user,
-	}),
-	{ checkUserStatus },
-)(SignIn);
+export default SignIn;
