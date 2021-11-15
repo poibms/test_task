@@ -1,14 +1,14 @@
-import { apiKey, imgUrl, regularRote, units } from '../Config/Api';
+import { apiParams } from '../Config/Api';
 import Http from './Http';
 
 const configureLinkByName = (value) => {
-	const linkByName = `${regularRote}q=${value}&cnt=5&appid=${apiKey}${units}`;
+	const linkByName = `${apiParams.regularRote}q=${value}&cnt=5&appid=${apiParams.apiKey}${apiParams.units}`;
 
 	return linkByName;
 };
 
 const configureLinkById = (id) => {
-	const linkById = `${regularRote}id=${id}&cnt=5&appid=${apiKey}${units}`;
+	const linkById = `${apiParams.regularRote}id=${id}&cnt=5&appid=${apiParams.apiKey}${apiParams.units}`;
 
 	return linkById;
 };
@@ -19,5 +19,5 @@ export const searchByName = async (value) =>
 export const searchById = async (id) => Http.get(configureLinkById(id));
 
 export const getIcon = (id) => {
-	return `${imgUrl}img/wn/${id}@2x.png`;
+	return `${apiParams.imgUrl}img/wn/${id}@2x.png`;
 };

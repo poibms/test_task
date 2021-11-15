@@ -1,26 +1,26 @@
-import { searchHistory, userAccount } from '../Config/Storage';
+import { storage } from '../Config/Storage';
 
 class LocalStorageServices {
 	createAccount = (value) => {
-		localStorage.setItem(userAccount, value);
+		localStorage.setItem(storage.userAccount, value);
 	};
 
 	removeAccount = () => {
-		localStorage.removeItem(userAccount);
+		localStorage.removeItem(storage.userAccount);
 	};
 
 	addSearchHistory = (value) => {
-		localStorage.setItem(searchHistory, value);
+		localStorage.setItem(storage.searchHistory, value);
 	};
 
 	getSearchHistory = () => {
-		const data = JSON.parse(localStorage.getItem(searchHistory));
+		const data = JSON.parse(localStorage.getItem(storage.searchHistory));
 
 		return data;
 	};
 
 	getUserAcc = () => {
-		if (localStorage.getItem(userAccount)) {
+		if (localStorage.getItem(storage.userAccount)) {
 			return true;
 		}
 

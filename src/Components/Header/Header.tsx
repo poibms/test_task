@@ -5,7 +5,6 @@ import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 import { checkUserStatus } from '../../Actions/UserStatusAction';
 
-// eslint-disable-next-line react/prefer-stateless-function
 const Headers = () => {
 	const dispatch = useDispatch();
 	const logOut = () => {

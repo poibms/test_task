@@ -1,18 +1,17 @@
 import React from 'react';
 import { getIcon } from '../../Services/SearchServices';
 
-function CurrentWeather({ data, nextWeather }) {
-	// const { data, nextWeather } = props;
-	const icon = data.weather.map((item) => (
+function CurrentWeather({ data, nextWeather }: any) {
+	const icon = data.weather.map((item: any) => (
 		<img alt="icon" key={item.id} src={getIcon(item.icon)} />
 	));
-	const weather = data.weather.map((item) => (
+	const weather = data.weather.map((item: any) => (
 		<div key={item.id}>
 			<p>{item.main}</p>
 		</div>
 	));
 
-	const nearestWeather = nextWeather.map((item) => (
+	const nearestWeather = nextWeather.map((item: any) => (
 		<li key={item.id}>
 			<div className="item_body">
 				<div className="item_body-title">{item.time}</div>

@@ -8,10 +8,10 @@ import LocalStorageServices from '../../Services/LocalStorageServices';
 import { removeSearchHistory } from '../../Actions/RemoveSearchHistory';
 import { getWeatherById, getWeatherByName } from '../../Reducers/Weather';
 
-const Main = (props) => {
-	const crntWeather = useSelector((state) => state.crntWeather);
-	const searchHistory = useSelector((state) => state.searchHistory);
-	const nearestWeather = useSelector((state) => state.nearestWeather);
+const Main: React.FunctionComponent = () => {
+	const crntWeather = useSelector((state: any) => state.crntWeather);
+	const searchHistory = useSelector((state: any) => state.searchHistory);
+	const nearestWeather = useSelector((state: any) => state.nearestWeather);
 	const dispatch = useDispatch();
 
 	const stateObj = { nearestWeather, searchHistory };
@@ -22,16 +22,16 @@ const Main = (props) => {
 		}
 	});
 
-	const submitRequestByName = async (value) => {
-		dispatch(getWeatherByName(value, stateObj));
+	const submitRequestByName = async (value: any) => {
+		dispatch(getWeatherByName({ value, stateObj }));
 	};
 
-	const submitRequestById = async (id) => {
-		dispatch(getWeatherById(id, stateObj));
+	const submitRequestById = async (id: any) => {
+		dispatch(getWeatherById({ id, stateObj }));
 	};
 
-	const removeSearchItem = (id) => {
-		const array = searchHistory.filter((item) => item.id !== id);
+	const removeSearchItem = (id: any) => {
+		const array = searchHistory.filter((item: any) => item.id !== id);
 		dispatch(removeSearchHistory(array));
 	};
 
@@ -39,7 +39,7 @@ const Main = (props) => {
 		<>
 			<div className="wrapper">
 				<div className="content">
-					<Header {...props} />
+					<Header />
 					<div className="search-panel">
 						<SearchPanel onSubmitByName={submitRequestByName} />
 					</div>

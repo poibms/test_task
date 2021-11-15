@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import './SignInForm.css';
 
-const SignInForm = (props) => {
+type Props = {
+	onSubmit: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const SignInForm: React.FunctionComponent<Props> = ({ onSubmit }: Props) => {
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const onSubmitSignInForm = (event) => {
+	const onSubmitSignInForm = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		props.onSubmit(login, email, password);
+		// @ts-ignore
+		onSubmit({ login, email, password });
 	};
 
 	return (

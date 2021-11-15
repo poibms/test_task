@@ -56,10 +56,11 @@ const setSearchHistory = (response, searchHistory) => {
 	return newPost;
 };
 
-const setWeatherValue = (response, stateObj) => {
+const setWeatherValue = ({ response, stateObj }) => {
+	console.log(response);
 	const tempArr = response.data.list;
 	const { nearestWeather, searchHistory } = stateObj;
-	console.log(stateObj);
+
 	let currentWeather;
 	let nextWeather = [];
 	let history = [];
