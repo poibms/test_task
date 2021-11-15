@@ -11,21 +11,21 @@ class Http {
 		});
 	}
 
-	async get(url) {
+	async get(url: string) {
 		const response = await this.http.get(url);
 
 		return response;
 	}
 
-	async post(url, data) {
+	async post(url: any, data: any) {
 		return this.http.post(url, data);
 	}
 
-	async put(url, data) {
+	async put(url: any, data: any) {
 		return this.http.put(url, data);
 	}
 
-	async delete(url, data) {
+	async delete(url: any, data: any) {
 		return this.http.delete(url, data);
 	}
 }

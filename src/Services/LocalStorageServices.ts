@@ -1,7 +1,7 @@
 import { storage } from '../Config/Storage';
 
 class LocalStorageServices {
-	createAccount = (value) => {
+	createAccount = (value: string) => {
 		localStorage.setItem(storage.userAccount, value);
 	};
 
@@ -9,12 +9,14 @@ class LocalStorageServices {
 		localStorage.removeItem(storage.userAccount);
 	};
 
-	addSearchHistory = (value) => {
+	addSearchHistory = (value: string) => {
 		localStorage.setItem(storage.searchHistory, value);
 	};
 
 	getSearchHistory = () => {
-		const data = JSON.parse(localStorage.getItem(storage.searchHistory));
+		const data = JSON.parse(
+			<string>localStorage.getItem(storage.searchHistory),
+		);
 
 		return data;
 	};
