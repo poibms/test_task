@@ -1,47 +1,31 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './SearchPanel.css';
 
-export default class SearchPanel extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			value: '',
-		};
-		this.onChangeSearchInput = this.onChangeSearchInput.bind(this);
-		this.onSubmitSearchForm = this.onSubmitSearchForm.bind(this);
-	}
+const SearchPanel = (props) => {
+	const [value, setValue] = useState('');
 
-	onSubmitSearchForm(e) {
+	const onSubmitSearchForm = (e) => {
 		e.preventDefault();
-		const { value } = this.state;
-		this.props.onSubmitByName(value);
-		this.setState({
-			value: '',
-		});
-	}
+		props.onSubmitByName(value);
+		setValue('');
+	};
 
-	onChangeSearchInput(event) {
-		this.setState({
-			value: event.target.value,
-			// value: event,
-		});
-	}
+	const onChangeSearchInput = (event) => {
+		setValue(event.target.value);
+	};
 
-	render() {
-		const { value } = this.state;
+	return (
+		<form className="search-form" onSubmit={onSubmitSearchForm}>
+			<input
+				className="onChange"
+				type="text"
+				placeholder="Enter city"
+				value={value}
+				onChange={onChangeSearchInput}
+			/>
+			<input type="submit" className="onSearch" />
+		</form>
+	);
+};
 
-		return (
-			<form className="search-form" onSubmit={this.onSubmitSearchForm}>
-				<input
-					className="onChange"
-					type="text"
-					placeholder="Enter city"
-					value={value}
-					onChange={this.onChangeSearchInput}
-				/>
-				<input type="submit" className="onSearch" />
-				{/* <button type="button" className="click" /> */}
-			</form>
-		);
-	}
-}
+export default SearchPanel;

@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Header.css';
+import { useDispatch } from 'react-redux';
 import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
 import LocalStorageServices from '../../Services/LocalStorageServices';
+import { checkUserStatus } from '../../Actions/UserStatusAction';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class Headers extends Component {
-	render() {
-		const { checkUserStatus } = this.props;
-		const logOut = () => {
-			LocalStorageServices.removeAccount();
-			checkUserStatus();
-		};
+const Headers = () => {
+	const dispatch = useDispatch();
+	const logOut = () => {
+		LocalStorageServices.removeAccount();
+		dispatch(checkUserStatus());
+	};
 
-		return (
-			<div className="header">
-				<h1>Weather app</h1>
-				<LogOutUserAccount onLogout={logOut} />
-			</div>
-		);
-	}
-}
+	return (
+		<div className="header">
+			<h1>Weather app</h1>
+			<LogOutUserAccount onLogout={logOut} />
+		</div>
+	);
+};
 export default Headers;

@@ -1,5 +1,3 @@
-// import LocalStorageServices from './LocalStorageServices';
-
 import LocalStorageServices from './LocalStorageServices';
 
 const setCurrentWeather = (index, response, arr) => {
@@ -39,7 +37,7 @@ const setNearestWeather = (index, arr, nearestWeather) => {
 	return newNearestWeather;
 };
 
-const setSearchHistory = (response, searchHistory, addSearchHistory) => {
+const setSearchHistory = (response, searchHistory) => {
 	const newPost = {
 		name: response.data.city.name,
 		country: response.data.city.country,
@@ -51,45 +49,39 @@ const setSearchHistory = (response, searchHistory, addSearchHistory) => {
 		const index = searchHistory.indexOf(elem);
 		searchHistory.splice(index, 1);
 
-		const newData = [...searchHistory, newPost];
-		addSearchHistory(newPost);
-
-		return newData;
+		return newPost;
 	}
-	const newData = [...searchHistory, newPost];
-	addSearchHistory(newPost);
+	LocalStorageServices.addSearchHistory(JSON.stringify(newPost));
 
-	LocalStorageServices.addSearchHistory(JSON.stringify(newData));
+	return newPost;
 };
 
-const setWeatherValue = (response, props) => {
+const setWeatherValue = (response, stateObj) => {
 	const tempArr = response.data.list;
-	const {
-		nearestWeather,
-		searchHistory,
-		addCurntWeather,
-		addNearestWeather,
-		addSearchHistory,
-	} = props;
+	const { nearestWeather, searchHistory } = stateObj;
+	console.log(stateObj);
+	let currentWeather;
+	let nextWeather = [];
+	let history = [];
 
-	// eslint-disable-next-line no-plusplus
-	for (let index = 0; index < tempArr.length; index++) {
+	for (let index = 0; index < tempArr.length; index = index + 1) {
 		if (index === 0) {
-			const currentWeather = setCurrentWeather(index, response, tempArr);
-			addCurntWeather(currentWeather);
-
-			// return {
-			// 	currentWeather,
-			// };
+			currentWeather = setCurrentWeather(index, response, tempArr);
 		} else {
-			const nextWeather = setNearestWeather(index, tempArr, nearestWeather);
-			// console.log(nextWeather);
-			addNearestWeather(nextWeather);
+			const nearestIteration = setNearestWeather(
+				index,
+				tempArr,
+				nearestWeather,
+			);
+			const newData = [...nextWeather, nearestIteration];
+			nextWeather = newData;
 		}
 	}
 
-	setSearchHistory(response, searchHistory, addSearchHistory);
-	// addSearchHistory(history);
+	history = setSearchHistory(response, searchHistory);
+	const responseObj = { currentWeather, nextWeather, history };
+
+	return responseObj;
 };
 
 export default setWeatherValue;
