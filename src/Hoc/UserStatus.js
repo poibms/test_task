@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { mainPage, signIn } from '../Config/Routes';
+import { routes } from '../Config/Routes';
 
 function requireAuthentication(Component) {
 	class Authentication extends React.Component {
 		componentDidMount() {
 			const { user } = this.props;
 			if (user) {
-				this.props.history.push(mainPage);
+				this.props.history.push(routes.mainPage);
 			} else {
-				this.props.history.push(signIn);
+				this.props.history.push(routes.signIn);
 			}
 		}
 
@@ -23,10 +23,10 @@ function requireAuthentication(Component) {
 		getUserState = () => {
 			const { user } = this.props;
 			if (user) {
-				return mainPage;
+				return routes.mainPage;
 			}
 
-			return signIn;
+			return routes.signIn;
 		};
 
 		render() {

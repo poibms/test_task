@@ -3,8 +3,21 @@ import './Weather.css';
 import SearchHistory from '../SearchHistory/SearchHistory';
 import CurrentWeather from '../CurrentWeather/CurrentWeather';
 
-export default function Weather(props) {
-	const { data, posts, nextWeather, onSubmitById, onDeleteItem } = props;
+type Props = {
+	data: any;
+	posts: any;
+	nextWeather: any;
+	onSubmitById: React.MouseEventHandler<HTMLButtonElement>;
+	onDeleteItem: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const Weather: React.FunctionComponent<Props> = ({
+	data,
+	posts,
+	nextWeather,
+	onSubmitById,
+	onDeleteItem,
+}: Props) => {
 	const copy = posts.concat([]);
 	const reverse = copy.reverse();
 
@@ -24,4 +37,5 @@ export default function Weather(props) {
 			</div>
 		</>
 	);
-}
+};
+export default Weather;

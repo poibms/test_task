@@ -1,8 +1,8 @@
 import React from 'react';
 
-function SearchHistory(props) {
+function SearchHistory(props: any) {
 	const { reverse, onSubmitById, onDeleteItem } = props;
-	const elements = reverse.map((item) => (
+	const elements = reverse.map((item: any) => (
 		<li className="search-item" key={item.id}>
 			<div
 				role="button"

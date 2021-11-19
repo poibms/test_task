@@ -1,6 +1,7 @@
+import { Dispatch } from 'redux';
 import LocalStorageServices from '../Services/LocalStorageServices';
 import { searchById, searchByName } from '../Services/SearchServices';
-import { wrongValue } from '../Config/Error';
+import { errors } from '../Config/Error';
 import { ADD_CURNT_WEATHER } from '../Actions/CurrentWeatherAction/CurrentWeatherConstant';
 import { ADD_SEARCH_HISHORY } from '../Actions/SearchHistoryAction/SearchHistoryConstant';
 import { ADD_NEAREST_WEATHER } from '../Actions/NearestWeather/NearestWeatherConstant';
@@ -12,7 +13,7 @@ import { addSearchHistory } from '../Actions/SearchHistoryAction';
 
 const posts = LocalStorageServices.getSearchHistory();
 
-export const crntWeather = (state = {}, { obj, type }) => {
+export const crntWeather = (state = {}, { obj, type }: any) => {
 	switch (type) {
 		case ADD_CURNT_WEATHER:
 			return obj;
@@ -21,7 +22,7 @@ export const crntWeather = (state = {}, { obj, type }) => {
 	}
 };
 
-export const searchHistory = (state = posts || [], { arr, obj, type }) => {
+export const searchHistory = (state = posts || [], { arr, obj, type }: any) => {
 	switch (type) {
 		case ADD_SEARCH_HISHORY:
 			return [...state, obj];
@@ -32,7 +33,7 @@ export const searchHistory = (state = posts || [], { arr, obj, type }) => {
 	}
 };
 
-export const nearestWeather = (state = [], { obj, type }) => {
+export const nearestWeather = (state = [], { obj, type }: any) => {
 	switch (type) {
 		case ADD_NEAREST_WEATHER:
 			return obj;
@@ -41,34 +42,34 @@ export const nearestWeather = (state = [], { obj, type }) => {
 	}
 };
 
-export const getWeatherByName = (value, stateObj) => {
-	return (dispatch) => {
+export const getWeatherByName = ({ value, stateObj }: any) => {
+	return (dispatch: Dispatch) => {
 		searchByName(value)
 			.then((response) => {
-				const answ = setWeatherValue(response, stateObj);
+				const answ = setWeatherValue({ response, stateObj });
 				const { currentWeather, nextWeather, history } = answ;
 				dispatch(addCurntWeather(currentWeather));
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
 			})
-			.catch((e) => {
-				alert(wrongValue, e);
+			.catch(() => {
+				alert(errors.wrongValue);
 			});
 	};
 };
 
-export const getWeatherById = (id, props) => {
-	return (dispatch) => {
+export const getWeatherById = ({ id, stateObj }: any) => {
+	return (dispatch: any) => {
 		searchById(id)
 			.then((response) => {
-				const answ = setWeatherValue(response, props);
+				const answ = setWeatherValue({ response, stateObj });
 				const { currentWeather, nextWeather, history } = answ;
 				dispatch(addCurntWeather(currentWeather));
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
 			})
-			.catch((e) => {
-				alert(wrongValue, e);
+			.catch(() => {
+				alert(errors.wrongValue);
 			});
 	};
 };

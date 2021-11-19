@@ -1,8 +1,12 @@
 import React from 'react';
 import './LogOutUserAccount.css';
 
-function LogOutUserAccount(props) {
-	const { onLogout } = props;
+type Props = {
+	onLogout: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+function LogOutUserAccount({ onLogout }: Props) {
+	// const { onLogout } = props;
 
 	return (
 		<div>

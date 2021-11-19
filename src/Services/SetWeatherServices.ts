@@ -1,6 +1,7 @@
 import LocalStorageServices from './LocalStorageServices';
 
-const setCurrentWeather = (index, response, arr) => {
+const setCurrentWeather = (index: any, response: any, arr: any) => {
+	// @ts-ignore
 	const dt = Date(response.data.dt);
 	const crntDate = dt.slice(0, 15);
 	const time = dt.slice(16, 24);
@@ -18,7 +19,7 @@ const setCurrentWeather = (index, response, arr) => {
 	return newCurWeather;
 };
 
-const setNearestWeather = (index, arr, nearestWeather) => {
+const setNearestWeather = (index: any, arr: any, nearestWeather: any) => {
 	const newNearestWeather = {
 		temp: Math.ceil(arr[index].main.temp),
 		feels_like: Math.floor(arr[index].main.feels_like),
@@ -37,14 +38,14 @@ const setNearestWeather = (index, arr, nearestWeather) => {
 	return newNearestWeather;
 };
 
-const setSearchHistory = (response, searchHistory) => {
+const setSearchHistory = (response: any, searchHistory: any) => {
 	const newPost = {
 		name: response.data.city.name,
 		country: response.data.city.country,
 		id: response.data.city.id,
 	};
 	const { id } = response.data.city;
-	const elem = searchHistory.find((item) => item.id === id);
+	const elem = searchHistory.find((item: any) => item.id === id);
 	if (elem) {
 		const index = searchHistory.indexOf(elem);
 		searchHistory.splice(index, 1);
@@ -56,13 +57,13 @@ const setSearchHistory = (response, searchHistory) => {
 	return newPost;
 };
 
-const setWeatherValue = (response, stateObj) => {
+const setWeatherValue = ({ response, stateObj }: any) => {
 	const tempArr = response.data.list;
 	const { nearestWeather, searchHistory } = stateObj;
-	console.log(stateObj);
+
 	let currentWeather;
 	let nextWeather = [];
-	let history = [];
+	let history = {};
 
 	for (let index = 0; index < tempArr.length; index = index + 1) {
 		if (index === 0) {
@@ -73,7 +74,7 @@ const setWeatherValue = (response, stateObj) => {
 				tempArr,
 				nearestWeather,
 			);
-			const newData = [...nextWeather, nearestIteration];
+			const newData: any = [...nextWeather, nearestIteration];
 			nextWeather = newData;
 		}
 	}
