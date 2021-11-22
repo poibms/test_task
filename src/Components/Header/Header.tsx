@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './Header.css';
 import { useDispatch } from 'react-redux';
 import LogOutUserAccount from '../LogOutUserAccount/LogOutUserAccount';
 import LocalStorageServices from '../../Services/LocalStorageServices';
 import { checkUserStatus } from '../../Actions/UserStatusAction';
 
-const Headers = () => {
+const Headers: FC = () => {
 	const dispatch = useDispatch();
 	const logOut = () => {
 		LocalStorageServices.removeAccount();

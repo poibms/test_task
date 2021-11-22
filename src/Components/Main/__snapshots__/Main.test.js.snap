@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing Main component render Main 1`] = `
+<DocumentFragment>
+  <div
+    class="wrapper"
+  >
+    <div
+      class="content"
+    >
+      <div
+        class="header"
+      >
+        <h1>
+          Weather app
+        </h1>
+        <div>
+          <button
+            class="login-button"
+            type="button"
+          >
+            Log Out
+          </button>
+        </div>
+      </div>
+      <div
+        class="search-panel"
+      >
+        <form
+          class="search-form"
+        >
+          <input
+            class="onChange"
+            placeholder="Enter city"
+            type="text"
+            value=""
+          />
+          <input
+            class="onSearch"
+            type="submit"
+            value="Search"
+          />
+        </form>
+      </div>
+      <div
+        class="main"
+      >
+        <div
+          class="main-content"
+        >
+          <div
+            class="main-list"
+          >
+            <h3>
+              Search history
+            </h3>
+            <ul
+              class="list-item"
+            />
+          </div>
+          <div
+            class="main-weather"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

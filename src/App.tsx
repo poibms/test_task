@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './Components/Main/Main';
 import SignIn from './Components/SignIn/SignIn';
-import { routes } from './Config/Routes';
+import { Routes } from './Config/Routes';
 import requireAuthentication from './Hoc/UserStatus';
 
-const App: React.FC = () => {
+const App: FC = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
 				<Route
 					exact
-					path={routes.mainPage}
+					path={Routes.MainPage}
 					component={requireAuthentication(Main)}
 				/>
 
 				<Route
 					exact
-					path={routes.signIn}
+					path={Routes.SignIn}
 					component={requireAuthentication(SignIn)}
 				/>
 			</Switch>
