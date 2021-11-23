@@ -68,11 +68,11 @@ const testSearchHistory = [
 		id: 629634,
 		name: 'Brest',
 	},
-	{
-		country: 'BY',
-		id: 625144,
-		name: 'Minsk',
-	},
+	// {
+	// 	country: 'BY',
+	// 	id: 625144,
+	// 	name: 'Minsk',
+	// },
 ];
 
 describe('testing Main component', () => {
@@ -81,15 +81,31 @@ describe('testing Main component', () => {
 		expect(asFragment(<Main />)).toMatchSnapshot();
 	});
 
-	// it('testing search function', () => {
-	// 	axios.get.mockImplementationOnce(() => Promise.resolve({ data: testObj }));
-	// 	const { getByText, getByPlaceholderText } = renderWithRedux(<Main />);
-	// 	userEvent.type(getByPlaceholderText('Enter city'), 'Minsk');
-	// 	userEvent.click(getByText('Search'));
-	// 	// const items = await getByText(/11-22-2021/i);
-	// 	// expect(items).toBeInTheDocument();
-	// 	expect(axios.get).toHaveBeenCalledTimes(1);
-	// });
+	// ne rabotaet :/
+	it('testing search function', async () => {
+		axios.get.mockResolvedValueOnce({ data: { value: 'Minsk' } });
+		const { getByText } = renderWithRedux(<Main />);
+		// 	// userEvent.type(screen.getByRole('textbox'), 'Minsk');
+		userEvent.click(getByText('Search'));
+		// 	// const items = await getByText(/Clouds/i);
+		// 	// expect(items).toBeInTheDocument();
+		expect(axios.get).toHaveBeenCalledTimes(1);
+		expect(axios.get).toHaveBeenCalledWith(
+			'http://api.openweathermap.org/data/2.5/forecast?q=&cnt=5&appid=002d4403ca0cb44523537',
+		);
+	});
+
+	it('testing remove function', () => {
+		const { getByText, getAllByRole } = renderWithRedux(<Main />, {
+			initialState: {
+				searchHistory: testSearchHistory,
+			},
+		});
+		const items = getAllByRole('listitem');
+		expect(items).toHaveLength(1);
+		// console.log(items[0]);
+		userEvent.click(getByText('X'));
+	});
 });
 
 describe('testing Main component with Redux', () => {

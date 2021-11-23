@@ -48,6 +48,7 @@ export const getWeatherByName = (value: string, stateObj: any) => {
 			.then((response) => {
 				const answ = setWeatherValue({ response, stateObj });
 				const { currentWeather, nextWeather, history } = answ;
+				console.log(currentWeather);
 				dispatch(addCurntWeather(currentWeather));
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
