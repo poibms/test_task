@@ -80,7 +80,6 @@ const setWeatherValue = ({ response, stateObj }: any) => {
 	}
 
 	history = setSearchHistory(response, searchHistory);
-	console.log(nextWeather);
 	const responseObj = { currentWeather, nextWeather, history };
 
 	return responseObj;

@@ -26,7 +26,6 @@ const Main: FC = () => {
 	});
 
 	const submitRequestByName = async (value: string) => {
-		console.log(value);
 		await dispatch(getWeatherByName(value, stateObj));
 	};
 
@@ -35,9 +34,7 @@ const Main: FC = () => {
 	};
 
 	const removeSearchItem = (id: number) => {
-		console.log(searchHistory);
 		const array = searchHistory.filter((item: any) => item.id !== id);
-		console.log(array);
 		dispatch(removeSearchHistory(array));
 	};
 

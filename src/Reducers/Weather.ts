@@ -53,8 +53,12 @@ export const getWeatherByName = (value: string, stateObj: any) => {
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
 			})
-			.catch(() => {
-				alert(Errors.WrongValue);
+			.catch((e) => {
+				if (e.response.status === 404) {
+					alert(Errors.WrongValue);
+				} else {
+					alert(Errors.OtherRequestError);
+				}
 			});
 	};
 };

@@ -105,6 +105,7 @@ describe('testing Main component', () => {
 		expect(items).toHaveLength(1);
 		// console.log(items[0]);
 		userEvent.click(getByText('X'));
+		screen.debug();
 	});
 });
 
