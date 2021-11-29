@@ -3,14 +3,12 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../Reducers';
 
-const configureStore = (preloadedState: any) =>
-	createStore(
-		rootReducer,
-		preloadedState,
-		composeWithDevTools(applyMiddleware(thunkMiddleware)),
-	);
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
-const store = configureStore({});
+// const configureStore = () =>
+// 	createStore(rootReducer, composedEnhancer);
+
+const store = createStore(rootReducer, composedEnhancer);
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

@@ -42,23 +42,23 @@ export const nearestWeather = (state = [], { obj, type }: any) => {
 	}
 };
 
-export const getWeatherByName = (value: string, stateObj: any) => {
-	return (dispatch: Dispatch) => {
-		searchByName(value)
+export const getWeatherByName = (value: string, stateObj: object) => {
+	return async (dispatch: Dispatch) => {
+		await searchByName(value)
 			.then((response) => {
 				const answ = setWeatherValue({ response, stateObj });
 				const { currentWeather, nextWeather, history } = answ;
-				console.log(currentWeather);
 				dispatch(addCurntWeather(currentWeather));
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
 			})
 			.catch((e) => {
-				if (e.response.status === 404) {
-					alert(Errors.WrongValue);
-				} else {
-					alert(Errors.OtherRequestError);
-				}
+				// if (e.response.status === 404) {
+				// 	alert(Errors.WrongValue);
+				// } else {
+				// 	alert(Errors.OtherRequestError);
+				// }
+				console.log(e);
 			});
 	};
 };

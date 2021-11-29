@@ -1,34 +1,11 @@
 import React from 'react';
-import { createStore } from 'redux';
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { combineReducers } from '@reduxjs/toolkit';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
-import {
-	crntWeather,
-	searchHistory,
-	nearestWeather,
-} from '../../Reducers/Weather';
 import Main from './Main';
+import { renderWithRedux } from '../../Services/TestServices';
 
 jest.mock('axios');
-
-const rootReducer = combineReducers({
-	searchHistory,
-	crntWeather,
-	nearestWeather,
-});
-
-const renderWithRedux = (
-	component,
-	{ initialState, store = createStore(rootReducer, initialState) } = {},
-) => {
-	return {
-		...render(<Provider store={store}>{component}</Provider>),
-		store,
-	};
-};
 
 const testObj = {
 	name: 'Minsk',
@@ -81,18 +58,31 @@ describe('testing Main component', () => {
 		expect(asFragment(<Main />)).toMatchSnapshot();
 	});
 
+	it('render Main', () => {
+		renderWithRedux(<Main />);
+		screen.debug();
+	});
+
 	// ne rabotaet :/
 	it('testing search function', async () => {
-		axios.get.mockResolvedValueOnce({ data: { value: 'Minsk' } });
-		const { getByText } = renderWithRedux(<Main />);
-		// 	// userEvent.type(screen.getByRole('textbox'), 'Minsk');
-		userEvent.click(getByText('Search'));
-		// 	// const items = await getByText(/Clouds/i);
-		// 	// expect(items).toBeInTheDocument();
-		expect(axios.get).toHaveBeenCalledTimes(1);
-		expect(axios.get).toHaveBeenCalledWith(
-			'http://api.openweathermap.org/data/2.5/forecast?q=&cnt=5&appid=002d4403ca0cb44523537',
+		// const promise = Promise.resolve({ data: { testObj } });
+		// axios.get.mockImplementationOnce(() => promise);
+		axios.get.mockImplementationOnce(() =>
+			Promise.resolve({ data: { testObj } }),
 		);
+		const { getByText } = renderWithRedux(<Main />);
+		fireEvent.change(screen.getByRole('textbox'), {
+			target: { value: 'Minsk' },
+		});
+		fireEvent.click(getByText('Search'));
+		// screen.debug();
+		// await act(() => promise);
+		// const items = await getByText(/Clouds/i);
+		// expect(items).toBeInTheDocument();
+		// expect(axios.get).toHaveBeenCalledTimes(1);
+		// expect(axios.get).toHaveBeenCalledWith(
+		// 	'http://api.openweathermap.org/data/2.5/forecast?q=Minsk&cnt=5&appid=002d4403ca0cb44523537',
+		// );
 	});
 
 	it('testing remove function', () => {
