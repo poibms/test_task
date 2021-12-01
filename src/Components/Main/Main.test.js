@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Main from './Main';
@@ -46,11 +46,11 @@ const testSearchHistory = [
 		id: 629634,
 		name: 'Brest',
 	},
-	// {
-	// 	country: 'BY',
-	// 	id: 625144,
-	// 	name: 'Minsk',
-	// },
+	{
+		country: 'RU',
+		id: 524901,
+		name: 'Moscow',
+	},
 ];
 
 describe('testing Main component', () => {
@@ -64,7 +64,6 @@ describe('testing Main component', () => {
 		screen.debug();
 	});
 
-	// ne rabotaet :/
 	it('testing search function', async () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve({ data }));
 		const { getByText } = renderWithRedux(<Main />);
@@ -78,6 +77,30 @@ describe('testing Main component', () => {
 		expect(axios.get).toHaveBeenCalledWith(
 			'data/2.5/forecast?q=Moscow&cnt=5&appid=002d4403ca0cb44523537de5c6cdfe1a&units=metric',
 		);
+	});
+
+	it('search by id', async () => {
+		axios.get.mockImplementationOnce(() => Promise.resolve({ data }));
+		const { getByText } = renderWithRedux(<Main />, {
+			initialState: {
+				searchHistory: testSearchHistory,
+			},
+		});
+		const btn = getByText(/Moscow/);
+		fireEvent.click(btn);
+		const message = await screen.getByText(/Clouds/);
+		expect(message).toBeInTheDocument();
+		screen.debug();
+		expect(axios.get).toHaveBeenCalledTimes(1);
+	});
+
+	it('generate error', () => {
+		axios.get.mockImplementationOnce(() => Promise.reject(new Error()));
+		const { getByText } = renderWithRedux(<Main />);
+		fireEvent.change(screen.getByRole('textbox'), {
+			target: { value: 'Moscow' },
+		});
+		fireEvent.click(getByText('Search'));
 	});
 
 	it('testing remove function', () => {
