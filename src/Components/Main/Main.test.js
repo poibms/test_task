@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Main from './Main';
 import { renderWithRedux } from '../../Services/TestServices';
+import { data } from './response';
 
 jest.mock('axios');
 
@@ -65,24 +66,18 @@ describe('testing Main component', () => {
 
 	// ne rabotaet :/
 	it('testing search function', async () => {
-		// const promise = Promise.resolve({ data: { testObj } });
-		// axios.get.mockImplementationOnce(() => promise);
-		axios.get.mockImplementationOnce(() =>
-			Promise.resolve({ data: { testObj } }),
-		);
+		axios.get.mockImplementationOnce(() => Promise.resolve({ data }));
 		const { getByText } = renderWithRedux(<Main />);
 		fireEvent.change(screen.getByRole('textbox'), {
-			target: { value: 'Minsk' },
+			target: { value: 'Moscow' },
 		});
 		fireEvent.click(getByText('Search'));
-		// screen.debug();
-		// await act(() => promise);
-		// const items = await getByText(/Clouds/i);
+		// const items = await getByText(/Snow/i);
 		// expect(items).toBeInTheDocument();
-		// expect(axios.get).toHaveBeenCalledTimes(1);
-		// expect(axios.get).toHaveBeenCalledWith(
-		// 	'http://api.openweathermap.org/data/2.5/forecast?q=Minsk&cnt=5&appid=002d4403ca0cb44523537',
-		// );
+		expect(axios.get).toHaveBeenCalledTimes(1);
+		expect(axios.get).toHaveBeenCalledWith(
+			'data/2.5/forecast?q=Moscow&cnt=5&appid=002d4403ca0cb44523537de5c6cdfe1a&units=metric',
+		);
 	});
 
 	it('testing remove function', () => {
@@ -93,7 +88,6 @@ describe('testing Main component', () => {
 		});
 		const items = getAllByRole('listitem');
 		expect(items).toHaveLength(1);
-		// console.log(items[0]);
 		userEvent.click(getByText('X'));
 		screen.debug();
 	});

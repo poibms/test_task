@@ -30,7 +30,7 @@ const Main: FC = () => {
 	};
 
 	const submitRequestById = async (id: number) => {
-		dispatch(getWeatherById(id, stateObj));
+		await dispatch(getWeatherById(id, stateObj));
 	};
 
 	const removeSearchItem = (id: number) => {

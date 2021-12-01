@@ -1,6 +1,6 @@
 import { baseUrl } from '../Config/Api';
 
-const axios = require('axios');
+import axios from 'axios'
 
 class Http {
 	http;

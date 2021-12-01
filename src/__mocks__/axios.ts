@@ -6,7 +6,7 @@
 // 	},
 // };
 
-const axios: any = jest.createMockFromModule('axios');
+const axios: any = jest.genMockFromModule('axios');
 
 axios.create.mockReturnThis();
 

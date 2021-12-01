@@ -11,7 +11,7 @@ const SearchPanel: FC<ISearchProps> = ({ onSubmitByName }: ISearchProps) => {
 	const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		onSubmitByName(value);
-		// setValue('');
+		setValue('');
 	};
 
 	return (

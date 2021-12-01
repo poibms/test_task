@@ -22,6 +22,7 @@ const rootReducer = combineReducers({
 export const renderWithRedux = (
 	component: any,
 	{
+		// @ts-ignore
 		initialState,
 		store = createStore(rootReducer, initialState, composedEnhancer),
 	} = {},
