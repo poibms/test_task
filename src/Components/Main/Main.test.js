@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Main from './Main';
 import { renderWithRedux } from '../../Services/TestServices';
-import { data } from './response';
+import { data, error } from './response';
 
 jest.mock('axios');
 
@@ -94,13 +94,15 @@ describe('testing Main component', () => {
 		expect(axios.get).toHaveBeenCalledTimes(1);
 	});
 
-	it('generate error', () => {
+	it('generate error', async () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(new Error()));
 		const { getByText } = renderWithRedux(<Main />);
 		fireEvent.change(screen.getByRole('textbox'), {
 			target: { value: 'Moscow' },
 		});
 		fireEvent.click(getByText('Search'));
+		// const message = await getByText(/Something was wrong/);
+		// expect(message).toBeInTheDocument();
 	});
 
 	it('testing remove function', () => {

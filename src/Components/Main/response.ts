@@ -1,3 +1,8 @@
+export const error = {
+	cod: '404',
+	message: 'city not found',
+};
+
 export const data = {
 	cod: '200',
 	message: 0,
