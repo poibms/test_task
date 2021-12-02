@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../Header/Header';
@@ -15,6 +15,7 @@ const Main: FC = () => {
 	const nearestWeather = useSelector(
 		(state: RootState) => state.nearestWeather,
 	);
+	const error = useSelector((state: RootState) => state.error);
 	const dispatch = useDispatch();
 
 	const stateObj = { nearestWeather, searchHistory };
@@ -44,13 +45,14 @@ const Main: FC = () => {
 				<div className="content">
 					<Header />
 					<div className="search-panel">
-						<SearchPanel onSubmitByName={submitRequestByName} />
+						<SearchPanel onSubmitByName={submitRequestByName} error={error} />
 					</div>
 					<div className="main">
 						<Weather
 							data={crntWeather}
 							posts={searchHistory}
 							nextWeather={nearestWeather}
+							error={error}
 							onSubmitById={submitRequestById}
 							onDeleteItem={removeSearchItem}
 						/>
