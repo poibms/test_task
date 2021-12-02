@@ -37,6 +37,7 @@
     "import/newline-after-import": ["error", { "count": 1 }],
     "new-cap": ["error", { "newIsCap": false }],
     "no-useless-return": "off",
+    "import/extensions": "off",
     "import/order": [
       "error",
       {
@@ -87,5 +88,12 @@
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "operator-assignment": ["error", "never"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

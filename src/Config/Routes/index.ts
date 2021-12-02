@@ -1,4 +1,4 @@
-export enum routes {
-	mainPage = '/',
-  signIn = '/signin',
+export enum Routes {
+	MainPage = '/',
+  SignIn = '/signin',
 };

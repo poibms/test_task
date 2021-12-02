@@ -1,13 +1,11 @@
 import React from 'react';
 import './LogOutUserAccount.css';
 
-type Props = {
+interface ILogoutProps {
 	onLogout: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-function LogOutUserAccount({ onLogout }: Props) {
-	// const { onLogout } = props;
-
+function LogOutUserAccount({ onLogout }: ILogoutProps) {
 	return (
 		<div>
 			<button type="button" className="login-button" onClick={onLogout}>

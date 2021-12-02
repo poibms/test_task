@@ -1,13 +1,13 @@
-import { apiParams } from '../Config/Api';
+import { baseUrl } from '../Config/Api';
 
-const axios = require('axios');
+import axios from 'axios'
 
 class Http {
 	http;
 
 	constructor() {
 		this.http = axios.create({
-			baseURL: apiParams.baseUrl,
+			baseURL: baseUrl,
 		});
 	}
 

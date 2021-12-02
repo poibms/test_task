@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import LocalStorageServices from '../Services/LocalStorageServices';
 import { searchById, searchByName } from '../Services/SearchServices';
-import { errors } from '../Config/Error';
+import { Errors } from '../Config/Error';
 import { ADD_CURNT_WEATHER } from '../Actions/CurrentWeatherAction/CurrentWeatherConstant';
 import { ADD_SEARCH_HISHORY } from '../Actions/SearchHistoryAction/SearchHistoryConstant';
 import { ADD_NEAREST_WEATHER } from '../Actions/NearestWeather/NearestWeatherConstant';
@@ -42,23 +42,29 @@ export const nearestWeather = (state = [], { obj, type }: any) => {
 	}
 };
 
-export const getWeatherByName = ({ value, stateObj }: any) => {
-	return (dispatch: Dispatch) => {
-		searchByName(value)
+export const getWeatherByName = (value: string, stateObj: object) => {
+	return async (dispatch: Dispatch) => {
+		await searchByName(value)
 			.then((response) => {
 				const answ = setWeatherValue({ response, stateObj });
 				const { currentWeather, nextWeather, history } = answ;
+				console.log(history);
 				dispatch(addCurntWeather(currentWeather));
 				dispatch(addNearestWeather(nextWeather));
 				dispatch(addSearchHistory(history));
 			})
-			.catch(() => {
-				alert(errors.wrongValue);
+			.catch((e) => {
+				// if (e.response.cod === 404) {
+				// 	alert(Errors.WrongValue);
+				// } else {
+				// 	alert(Errors.OtherRequestError);
+				// }
+				console.log(e);
 			});
 	};
 };
 
-export const getWeatherById = ({ id, stateObj }: any) => {
+export const getWeatherById = (id: number, stateObj: any) => {
 	return (dispatch: any) => {
 		searchById(id)
 			.then((response) => {
@@ -69,7 +75,7 @@ export const getWeatherById = ({ id, stateObj }: any) => {
 				dispatch(addSearchHistory(history));
 			})
 			.catch(() => {
-				alert(errors.wrongValue);
+				alert(Errors.WrongValue);
 			});
 	};
 };

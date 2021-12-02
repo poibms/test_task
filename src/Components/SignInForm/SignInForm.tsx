@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import './SignInForm.css';
 
-type Props = {
+interface ISignInProps {
 	onSubmit: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const SignInForm: React.FunctionComponent<Props> = ({ onSubmit }: Props) => {
+const SignInForm: FC<ISignInProps> = ({ onSubmit }: ISignInProps) => {
 	const [login, setLogin] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');

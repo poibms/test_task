@@ -1,4 +1,4 @@
-export enum storage {
-	userAccount = 'UserAccount',
-	searchHistory = 'SearchHistory',
+export enum Storage {
+	UserAccount = 'UserAccount',
+	SearchHistory = 'SearchHistory',
 }

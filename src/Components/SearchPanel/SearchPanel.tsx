@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import './SearchPanel.css';
 
-type Props = {
-	onSubmitByName: React.MouseEventHandler<HTMLButtonElement>;
-};
+interface ISearchProps {
+	onSubmitByName: (value: string) => void;
+}
 
-const SearchPanel: React.FunctionComponent<Props> = ({
-	onSubmitByName,
-}: Props) => {
+const SearchPanel: FC<ISearchProps> = ({ onSubmitByName }: ISearchProps) => {
 	const [value, setValue] = useState('');
 
 	const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		// @ts-ignore
 		onSubmitByName(value);
 		setValue('');
 	};
@@ -26,7 +23,7 @@ const SearchPanel: React.FunctionComponent<Props> = ({
 				value={value}
 				onChange={(e) => setValue(e.currentTarget.value)}
 			/>
-			<input type="submit" className="onSearch" />
+			<input type="submit" className="onSearch" value="Search" />
 		</form>
 	);
 };

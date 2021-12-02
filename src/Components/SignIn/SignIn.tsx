@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import SignInForm from '../SignInForm/SignInForm';
 import LocalStorageServices from '../../Services/LocalStorageServices';
-import { errors } from '../../Config/Error';
+import { Errors } from '../../Config/Error';
 import passwordValidation from '../../Services/Validation';
 import { checkUserStatus } from '../../Actions/UserStatusAction';
 import './SignIn.css';
 
-const SignIn: React.FunctionComponent = () => {
+const SignIn: FC = () => {
 	const dispatch = useDispatch();
 
 	const signInUserAccount = ({ login, email, password }: any) => {
@@ -17,7 +17,7 @@ const SignIn: React.FunctionComponent = () => {
 			LocalStorageServices.createAccount(token);
 			dispatch(checkUserStatus());
 		} else {
-			alert(errors.wrongPassword);
+			alert(Errors.WrongPassword);
 		}
 	};
 

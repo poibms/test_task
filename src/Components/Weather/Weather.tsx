@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './Weather.css';
 import SearchHistory from '../SearchHistory/SearchHistory';
 import CurrentWeather from '../CurrentWeather/CurrentWeather';
 
-type Props = {
+interface IWeatherProps {
 	data: any;
-	posts: any;
-	nextWeather: any;
-	onSubmitById: React.MouseEventHandler<HTMLButtonElement>;
-	onDeleteItem: React.MouseEventHandler<HTMLButtonElement>;
-};
+	posts: any[];
+	nextWeather: any[];
+	onSubmitById: (id: number) => void;
+	onDeleteItem: (id: number) => void;
+}
 
-const Weather: React.FunctionComponent<Props> = ({
+const Weather: FC<IWeatherProps> = ({
 	data,
 	posts,
 	nextWeather,
 	onSubmitById,
 	onDeleteItem,
-}: Props) => {
+}: IWeatherProps) => {
 	const copy = posts.concat([]);
 	const reverse = copy.reverse();
 
