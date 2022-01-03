@@ -50,7 +50,7 @@ class UserController {
 
   async getUsers(req, res, next) {
     try{
-      res.json(['sdfs', 'dsg'])
+
     } catch (e) {
 
     }
