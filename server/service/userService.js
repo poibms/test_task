@@ -38,6 +38,28 @@ class userService {
     await user.save()
   }
 
+  async signIn(email, password) {
+    const user = await UserModel.findOne({email});
+    if(!user) {
+      throw ApiError.BadRequest("there is no user with such email")
+    }
+    const isPassEqual = await bcrypt.compare(password, user.password);
+    if(!isPassEqual) {
+      throw ApiError.BadRequest("incorrect password");
+    }
+
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({...userDto});
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return { ...tokens, user: userDto }
+  }
+
+  async logout(refreshToken) {
+    const token = await tokenService.removeToken(refreshToken);
+    return token;
+  }
+
 }
 
 module.exports = new userService();
